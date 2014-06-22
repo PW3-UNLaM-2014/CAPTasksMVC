@@ -18,7 +18,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
- <form id="form1" runat="server">
+
     <div class="navbar navbar-fixed-top">
         <div class='container'>
             <div class="col-md-6">
@@ -29,16 +29,14 @@
             </div>
             <div id="divSessionInfo" class="col-md-6 text-right">
                 Bienvenido,
-                <asp:Label ID="lblUsuario" runat="server" Text=""></asp:Label>
-                <asp:Button ID="btnSalir" runat="server" Text="&#xf08b; Salir" OnClick="btnSalir_Click" class="btn btn-default fa-with-txt btn-sm">
-                </asp:Button>
+                @*<asp:Label ID="lblUsuario" runat="server" Text=""></asp:Label>*@
+                <input id="btnSalir" type="button" value="&#xf08b; Salir" class="btn btn-default fa-with-txt btn-sm"/>
             </div>
         </div>
     </div>
     <div class="container">
     @RenderBody()
     </div>
-    </form>
     <div id="pie" class="fixed-bottom clearfix">
         <div class="modal-footer container">
             <small class="text-muted">Copyright 2014 - Todos los derechos reservados</small>
