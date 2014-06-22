@@ -3,13 +3,47 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+     <!-- Core CSS -->
+    <link rel="Stylesheet" type="text/css" media="all" href="../../Content/css/bootstrap.min.css" />
+    <link rel="Stylesheet" type="text/css" media="all" href="../../Content/font-awesome/css/font-awesome.css" />
+    <!-- SB Admin CSS  -->
+    <link rel="Stylesheet" type="text/css" media="all" href="../../Content/css/captasks.css" />
+    <link type="text/css" rel="shortcut icon" href="../../Content/img/favicon.ico"/>
+    <!-- Core Scripts -->
+    <script language="javascript" type="text/javascript" src="../../Scripts/js/jquery-1.10.2.js"></script>
+    <script language="javascript" type="text/javascript" src="../../Scripts/js/bootstrap.min.js"></script>
+
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+ <form id="form1" runat="server">
+    <div class="navbar navbar-fixed-top">
+        <div class='container'>
+            <div class="col-md-6">
+            <a class="navbar-brand" href=""><h4>
+                    CAPTasks
+                </h4></a>
+                
+            </div>
+            <div id="divSessionInfo" class="col-md-6 text-right">
+                Bienvenido,
+                <asp:Label ID="lblUsuario" runat="server" Text=""></asp:Label>
+                <asp:Button ID="btnSalir" runat="server" Text="&#xf08b; Salir" OnClick="btnSalir_Click" class="btn btn-default fa-with-txt btn-sm">
+                </asp:Button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
     @RenderBody()
-
+    </div>
+    </form>
+    <div id="pie" class="fixed-bottom clearfix">
+        <div class="modal-footer container">
+            <small class="text-muted">Copyright 2014 - Todos los derechos reservados</small>
+        </div>
+    </div>
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 </body>
