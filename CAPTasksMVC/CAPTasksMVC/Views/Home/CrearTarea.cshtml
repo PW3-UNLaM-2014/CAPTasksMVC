@@ -1,0 +1,88 @@
+﻿@model CAPTasksMVC.Models.Tareas
+
+@{
+    ViewBag.Title = "CrearTarea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CrearTarea</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Tareas</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
+        </div>
+        <div class="editor-label">
+         @Html.DropDownList("IdCarpeta", String.Empty)
+         @Html.ValidationMessageFor(model => model.IdCarpeta)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IdUsuario,"Usuario")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IdUsuario", String.Empty)
+         @Html.ValidationMessageFor(model => model.IdUsuario)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Descripcion)
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FechaFin)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FechaFin)
+            @Html.ValidationMessageFor(model => model.FechaFin)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Prioridad)
+        </div>
+        <div class="editor-field">
+            <select id="Select1">
+                <option value="0">Baja</option>
+                <option value="1">Media</option>
+                <option value="2">Alta</option>
+                <option value="3">Urgente</option>
+            </select>
+            @Html.ValidationMessageFor(model => model.Prioridad)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Estado)
+        </div>
+        <div class="editor-field">
+        @* @Html.CheckBoxFor(model=>model.Estado)*@
+         @Html.LabelFor(model=>model.Estado, new { @class = "checkbox" })
+            
+        </div>
+
+        <p>
+            <input type="submit" value="Crear Tarea" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
