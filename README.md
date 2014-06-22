@@ -12,11 +12,17 @@ CAPTasksMVC
 Al ingresar a la aplicación, un nuevo usuario podrá registrarse para comenzar a utilizarla. Una
 vez registrado, el usuario recibirá un email de activación que contendrá el link donde se activará
 su usuario registrado.
+
 Los datos solicitados serán:
+
 ● Nombre. Máximo de 20 caracteres. Obligatorio.
+
 ● Apellido. Máximo de 20 caracteres. Obligatorio.
+
 ● Email. Máximo de 20 caracteres. Obligatorio.
-○ Se deberá validar que el formato del dato ingresado sea un email.
+
+  ○ Se deberá validar que el formato del dato ingresado sea un email.
+  
 ● Contraseña. Máximo 20 caracteres. Obligatorio.
 ○ La contraseña al menos deberá contener 2 números y una letra mayúscula.
 ○ Deberá existir otro campo donde el usuario deba volver a ingresar la contraseña
