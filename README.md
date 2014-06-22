@@ -32,6 +32,7 @@ Los datos solicitados serán:
     deben enmascarar el valor correspondiente.
     
 ● Captcha. El usuario deberá ingresar el valor correcto para poder registrarse.
+
 Validaciones:
 
 ● En caso de que ya exista un usuario registrado activo con el mismo email, se deberá
