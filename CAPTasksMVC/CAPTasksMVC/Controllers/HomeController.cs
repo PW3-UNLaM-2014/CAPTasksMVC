@@ -27,7 +27,6 @@ namespace CAPTasksMVC.Controllers
         public ActionResult CrearTarea()
         {
             ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
-            ViewBag.IdUsuario = new SelectList(cap.Usuarios, "IdUsuario", "Nombre");
             return View();
         }
 

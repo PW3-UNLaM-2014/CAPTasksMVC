@@ -5,56 +5,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CrearTarea</h2>
+<div class="container margin-bottom">
+<div id="page-wrapper" class="col-md-6 col-md-offset-3">
+
+<h3 class="page-header">Guardar tarea</h3>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Tareas</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
-        </div>
-        <div class="editor-label">
-         @Html.DropDownList("IdCarpeta", String.Empty)
-         @Html.ValidationMessageFor(model => model.IdCarpeta)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IdUsuario,"Usuario")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("IdUsuario", String.Empty)
-         @Html.ValidationMessageFor(model => model.IdUsuario)
-        </div>
 
-        <div class="editor-label">
+       <div class="form-group">
             @Html.LabelFor(model => model.Nombre)
-        </div>
-        <div class="editor-field">
+        <br />
             @Html.EditorFor(model => model.Nombre)
             @Html.ValidationMessageFor(model => model.Nombre)
         </div>
 
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => model.Descripcion)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Descripcion)
+        <br />
+
+            @Html.TextAreaFor(model => model.Descripcion)
             @Html.ValidationMessageFor(model => model.Descripcion)
         </div>
 
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => model.FechaFin)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.FechaFin)
+        <br />
+           <input type="text" id="datepicker"/>
+
+            @*@Html.EditorFor(model => model.FechaFin)*@
             @Html.ValidationMessageFor(model => model.FechaFin)
         </div>
 
-        <div class="editor-label">
+     <div class="row">
+       <div class="form-group col-md-6">
             @Html.LabelFor(model => model.Prioridad)
-        </div>
-        <div class="editor-field">
+        
             <select id="Select1">
                 <option value="0">Baja</option>
                 <option value="1">Media</option>
@@ -63,25 +50,32 @@
             </select>
             @Html.ValidationMessageFor(model => model.Prioridad)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Estado)
+    
+         <div class="form-group col-md-6">
+         @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
+       
+         @Html.DropDownList("IdCarpeta", String.Empty)
+         @Html.ValidationMessageFor(model => model.IdCarpeta)
         </div>
-        <div class="editor-field">
-        @* @Html.CheckBoxFor(model=>model.Estado)*@
-         @Html.LabelFor(model=>model.Estado, new { @class = "checkbox" })
-            
+        </div>
+        <div class="checkbox">
+            @*@Html.LabelFor(model => model.Estado)*@
+        <br />
+       
+          <input id="Checkbox1" type="checkbox"  disabled="disabled" />
+          Completada
+
         </div>
 
         <p>
-            <input type="submit" value="Crear Tarea" />
-        </p>
-    </fieldset>
-}
+            <input type="button" id="btnCrear" value="Crear Tarea" class="btn btn-success" />
+            <input type="button" id="btnCancelar" value="Cancelar" class="btn btn-warning"/>
+         </p>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+}
 </div>
+ </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
