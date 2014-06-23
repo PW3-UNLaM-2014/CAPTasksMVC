@@ -2,5 +2,14 @@
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Home</h2>
+<div class="col-md-12">
+    <div id="sidebar" class="col-md-3 navbar-default navbar-static-side">
+        <h2>
+            Carpetas
+        </h2>
+        <br />
+        <ul>
+            @Html.ActionLink("Crear Nueva Carpeta", "CrearCarpeta")
+        </ul>
+    </div>
+</div>

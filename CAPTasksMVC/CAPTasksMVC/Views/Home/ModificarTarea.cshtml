@@ -5,80 +5,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ModificarTarea</h2>
+<div class="container margin-bottom">
+<div id="page-wrapper" class="col-md-6 col-md-offset-3">
+
+<h3 class="page-header">Modificar tarea</h3>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Tareas</legend>
-
-        @Html.HiddenFor(model => model.IdTarea)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IdCarpeta)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IdCarpeta)
-            @Html.ValidationMessageFor(model => model.IdCarpeta)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IdUsuario)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IdUsuario)
-            @Html.ValidationMessageFor(model => model.IdUsuario)
-        </div>
-
-        <div class="editor-label">
+       <div>
+        @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
+        <br />
+         @Html.DropDownList("IdCarpeta", String.Empty)
+         @Html.ValidationMessageFor(model => model.IdCarpeta)
+         </div>
+       
+        <div class="form-group">
             @Html.LabelFor(model => model.Nombre)
-        </div>
-        <div class="editor-field">
+         <br />
             @Html.EditorFor(model => model.Nombre)
             @Html.ValidationMessageFor(model => model.Nombre)
         </div>
 
-        <div class="editor-label">
+         <div class="form-group">
             @Html.LabelFor(model => model.Descripcion)
-        </div>
-        <div class="editor-field">
+        <br />
             @Html.EditorFor(model => model.Descripcion)
             @Html.ValidationMessageFor(model => model.Descripcion)
         </div>
 
-        <div class="editor-label">
+         <div class="form-group">
             @Html.LabelFor(model => model.FechaFin)
-        </div>
-        <div class="editor-field">
+        <br />
             @Html.EditorFor(model => model.FechaFin)
             @Html.ValidationMessageFor(model => model.FechaFin)
         </div>
 
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => model.Prioridad)
-        </div>
-        <div class="editor-field">
+        <br />
             @Html.EditorFor(model => model.Prioridad)
             @Html.ValidationMessageFor(model => model.Prioridad)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Estado)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Estado)
-            @Html.ValidationMessageFor(model => model.Estado)
-        </div>
-
+        <br />
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" id="btnGuardarCambios" class="btn btn-success" value="Guardar cambios" />
+            <input type="submit" id="btnCancelar" class="btn btn-warning" value="Cancelar" />
         </p>
-    </fieldset>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+}
+</div>
 </div>
 
 @section Scripts {

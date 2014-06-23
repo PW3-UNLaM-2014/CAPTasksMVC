@@ -134,6 +134,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CAPTasks.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarpetaModel.cs" />
+    <Compile Include="Models\TareaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +145,7 @@
     <Content Include="Content\css\plugins\morris\morris-0.4.3.min.css" />
     <Content Include="Content\css\plugins\social-buttons\social-buttons.css" />
     <Content Include="Content\css\plugins\timeline\timeline.css" />
+    <Content Include="Content\datepicker\demos.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -208,8 +211,12 @@
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\datepicker\jquery-1.8.0.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\datepicker\jquery.ui.core.js" />
+    <Content Include="Scripts\datepicker\jquery.ui.datepicker.js" />
+    <Content Include="Scripts\datepicker\jquery.ui.widget.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
