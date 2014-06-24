@@ -7,8 +7,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            $.datepicker.setDefaults($.datepicker.regional['es']);
-            $("#datepicker").datepicker($.datepicker.regional['es']);
+            $("#datepicker").datepicker();
+            $('#datepicker').datepicker('option', { dateFormat: 'dd/mm/yy' });
         }); 
     </script>
 }
@@ -16,7 +16,7 @@
     <div id="page-wrapper" class="col-md-6 col-md-offset-3">
         <h3 class="page-header">
             Nueva Tarea</h3>
-        @using (Html.BeginForm("CrearTarea","Home",FormMethod.Post))
+        @using (Html.BeginForm("CrearTarea", "Home", FormMethod.Post))
         {
             @Html.ValidationSummary(true)
 
@@ -41,15 +41,13 @@
             <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                
-                <input type="text" id="datepicker"  />[mm/dd/aaaa]
+                <input type="text" id="datepicker" name="fecha" />
             </div>
             <br />
-
+            @Html.LabelFor(model => model.Prioridad)
             <div class="row">
-                <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.Prioridad)
-                    <select id="Select1">
+               <div class="form-group col-md-6">
+                    <select id="Select1" name="prioridad">
                         <option value="0">Baja</option>
                         <option value="1">Media</option>
                         <option value="2">Alta</option>
@@ -59,7 +57,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
-                    @Html.DropDownList("IdCarpeta", String.Empty)
+                    @Html.DropDownList("IdCarpeta")
                     @Html.ValidationMessageFor(model => model.IdCarpeta)
                 </div>
             </div>
@@ -68,11 +66,10 @@
                 <input id="Checkbox1" type="checkbox" disabled="disabled" />
                 Completada
             </div>
-
+            <br />
             <p>
                 <input type="submit" id="btnCrear" value="Crear Tarea" class="btn btn-success" />
             </p>
-
         }
     </div>
 </div>

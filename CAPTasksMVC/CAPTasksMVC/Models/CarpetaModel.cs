@@ -24,6 +24,7 @@ namespace CAPTasksMVC.Models
             [StringLength(20,ErrorMessage="Maximo 20 caracteres")]
             public string Nombre { get; set; }
 
+            [Required(ErrorMessage = "Campo obligatorio")]
             [StringLength(200, ErrorMessage = "Maximo 200 caracteres")]
             public string Descripcion{get;set;}
         }

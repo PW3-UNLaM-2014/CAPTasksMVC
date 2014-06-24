@@ -1,21 +1,18 @@
 ﻿@model CAPTasksMVC.Models.Tareas
-
 @{
     ViewBag.Title = "EliminarTarea";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h3>Eliminar Tarea</h3>
-
-<h3>¿Esta seguro que desea eliminar esta tarea?</h3>
-<fieldset>    
-       @*  @Html.DisplayNameFor(model => model.Nombre)*@
-    
-        @Html.DisplayFor(model => model.Nombre)
+<h3>
+    Eliminar Tarea</h3>
+<h4>
+    ¿Esta seguro que desea eliminar esta tarea?</h4>
+<fieldset>
+    <h4>@Html.DisplayFor(model => model.Nombre)</h4>
 </fieldset>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     <p>
-        <input type="submit" id="btnBorrarTarea" class="btn btn-success" value="Borrar" /> 
-        <input type="submit" id="btncancelar" class="btn btn-warning" value="Cancelar" />   
+        <input type="submit" id="btnBorrarTarea" class="btn btn-success" value="Eliminar" />
     </p>
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<CAPTasksMVC.Models.Tareas>
+@{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,8 +9,44 @@
             Carpetas
         </h2>
         <br />
+        @*   <table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                </tr>
+            }
+        </table>*@
         <ul>
-            @Html.ActionLink("Crear Nueva Carpeta", "CrearCarpeta")
+            @Html.ActionLink("Nueva Carpeta", "CrearCarpeta")
         </ul>
+    </div>
+    <div id="page-wrapper" class="col-md-9">
+        <h2>
+            Lista de tareas
+        </h2>
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "ModificarTarea", new { idTarea = item.IdTarea }) |
+                        @Html.ActionLink("Eliminar", "EliminarTarea", new { idTarea = item.IdTarea })
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 </div>

@@ -16,8 +16,9 @@ namespace CAPTasksMVC.Controllers
 
         public ActionResult Home()
         {
-            var carpetas = (from car in cap.Carpetas select car).ToList();
-            return View(carpetas);
+            //var carpetas = (from car in cap.Carpetas select car).ToList();
+            var tareas = (from car in cap.Tareas select car).ToList();
+            return View(tareas);
         }
 
         public ActionResult CrearCarpeta()
@@ -43,7 +44,7 @@ namespace CAPTasksMVC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return View();
+                    return Redirect("../Views/Shared/Error.cshtml");
                 }
             }
             else
@@ -58,36 +59,65 @@ namespace CAPTasksMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult CrearTarea(Tareas tarea)
+        public ActionResult CrearTarea(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fecha, int prioridad)
         {
             if (ModelState.IsValid)
             {
-                //Tareas miTarea = new Tareas();
-                //miTarea.IdUsuario = idUsuario;
-                //miTarea.Nombre = nombre;
-                //miTarea.Descripcion = descripcion;
-                //miTarea.FechaFin = DateTime.Now;
-                //miTarea.IdCarpeta = idcarpeta;
-                //miTarea.Prioridad = 1;
-                //miTarea.Estado = 1;
-                //cap.AddToCarpetas(tarea);
-                //cap.SaveChanges();
-                return RedirectToAction("Home");
+                try
+                {
+                    Tareas miTarea = new Tareas();
+                    miTarea.IdUsuario = idUsuario;
+                    miTarea.Nombre = nombre;
+                    miTarea.Descripcion = descripcion;
+                    miTarea.FechaFin = fecha;
+                    miTarea.IdCarpeta = idCarpeta;
+                    miTarea.Prioridad = Convert.ToInt16(prioridad);
+                    miTarea.Estado = 1;
+                    cap.Tareas.AddObject(miTarea);
+                    cap.SaveChanges();
+                    return RedirectToAction("Home");
+                }
+                catch(Exception ex)
+                {
+                    return Redirect("../Views/Shared/Error.cshtml");
+                }
             }
             else
-                return View(tarea);
+                return View();
         }
 
+        public ActionResult ModificarTarea(int idTarea)
+        {
+            Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
+            //ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            return View();
+
+        }
+
+        [HttpPost]
         public ActionResult ModificarTarea()
         {
-            ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            
             return View();
 
         }
 
-        public ActionResult EliminarTarea()
+        public ActionResult EliminarTarea(int idTarea)
         {
-            return View();
+            Tareas tarea = cap.Tareas.Single(e => e.IdTarea == idTarea);
+            return View(tarea);
+        }
+
+        [HttpPost, ActionName("EliminarTarea")]
+        public ActionResult Eliminar(int idTarea)
+        {
+            var baja = (from e in cap.Tareas
+                        where e.IdTarea==idTarea
+                        select e).Single();
+
+            cap.Tareas.DeleteObject(baja);
+            cap.SaveChanges();
+            return RedirectToAction("Home");
         }
     }
 }
