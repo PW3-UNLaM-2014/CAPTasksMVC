@@ -17,7 +17,7 @@ namespace CAPTasksMVC.Controllers
         public ActionResult Home()
         {
             //var carpetas = (from car in cap.Carpetas select car).ToList();
-            var tareas = (from car in cap.Tareas select car).ToList();
+            var tareas = (from car in cap.Tareas select car).ToList();//modificar para que muestre solo las del usuario logueado
             return View(tareas);
         }
 
@@ -89,8 +89,8 @@ namespace CAPTasksMVC.Controllers
         public ActionResult ModificarTarea(int idTarea)
         {
             Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
-            //ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
-            return View();
+            ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            return View(tarea);
 
         }
 

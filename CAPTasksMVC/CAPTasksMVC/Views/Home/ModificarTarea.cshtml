@@ -3,6 +3,15 @@
     ViewBag.Title = "ModificarTarea";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $("#datepicker").datepicker();
+            $('#datepicker').datepicker('option', { dateFormat: 'dd/mm/yy' });
+        }); 
+    </script>
+}
 <div class="container margin-bottom">
     <div id="page-wrapper" class="col-md-6 col-md-offset-3">
         <h3 class="page-header">
@@ -28,31 +37,32 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Descripcion)
                 <br />
-                @Html.EditorFor(model => model.Descripcion)
+                @Html.TextAreaFor(model => model.Descripcion)
                 @Html.ValidationMessageFor(model => model.Descripcion)
             </div>
 
-            <div class="form-group">
+             <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                @Html.EditorFor(model => model.FechaFin)
-                @Html.ValidationMessageFor(model => model.FechaFin)
+                <input type="text" id="datepicker" name="fecha"/>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Prioridad)
-                <br />
-                @Html.EditorFor(model => model.Prioridad)
-                @Html.ValidationMessageFor(model => model.Prioridad)
+             @Html.LabelFor(model => model.Prioridad)
+            <div class="row">
+               <div class="form-group col-md-6">
+                    <select id="Select1" name="prioridad">
+                        <option value="0">Baja</option>
+                        <option value="1">Media</option>
+                        <option value="2">Alta</option>
+                        <option value="3">Urgente</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Prioridad)
+                </div>
             </div>
             <br />
             <p>
-                <input type="submit" id="btnGuardarCambios" class="btn btn-success" value="Guardar cambios" />
+                <input type="submit" id="btnGuardarCambios" class="btn btn-success" value="Guardar" />
             </p>
-
         }
     </div>
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
