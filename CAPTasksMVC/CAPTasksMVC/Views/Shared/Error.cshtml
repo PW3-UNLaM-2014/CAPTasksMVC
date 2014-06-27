@@ -1,17 +1,43 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Error</title>
+    <!-- Core CSS - Include with every page -->
+    <link rel="Stylesheet" type="text/css" href="../../Content/css/bootstrap.min.css"
+        media="all" />
+    <link rel="Stylesheet" type="text/css" href="../../Content/font-awesome/css/font-awesome.css"
+        media="all" />
+    <!-- SB Admin CSS - Include with every page -->
+    <link rel="Stylesheet" type="text/css" href="../../Content/css/captasks.css" media="all" />
+    <link rel="shortcut icon" href="../../Content/img/favicon.ico">
+    <!-- Core Scripts - Include with every page -->
+    <script language="javascript" type="text/javascript" src="../../Scripts/js/jquery-1.10.2.js"></script>
+    <script language="javascript" type="text/javascript" src="../../Scripts/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h2>
-        Lo sentimos; se produjo un error al procesar la solicitud.
-    </h2>
+    <div class='header container'>
+        <div class="contenedor-imagen col-md-6">
+            <img src="../../Content/img/Error.png" />
+        </div>
+        <div class="col-md-6">
+            <blockquote>
+                <h3 class="text-info">
+                    <p>
+                        Lo sentimos, se produjo un error al procesar la solicitud.</p>
+                </h3>
+                <footer>El equipo de CAPTasks!</cite></footer>
+            </blockquote>
+        </div>
+    </div>
+    <div id="pie" class="fixed-bottom">
+        <div class="modal-footer container">
+            <small class="text-muted">Copyright 2014 - Todos los derechos reservados</small>
+        </div>
+    </div>
 </body>
 </html>

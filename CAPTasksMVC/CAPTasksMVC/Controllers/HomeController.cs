@@ -17,8 +17,8 @@ namespace CAPTasksMVC.Controllers
         public ActionResult Home()
         {
             //var carpetas = (from car in cap.Carpetas select car).ToList();
-            var tareas = (from car in cap.Tareas select car).ToList();//modificar para que muestre solo las del usuario logueado
-            return View(tareas);
+            var resultado = (from car in cap.Tareas select car).ToList();//modificar para que muestre solo las del usuario logueado
+            return View(resultado);
         }
 
         public ActionResult CrearCarpeta()
@@ -44,7 +44,7 @@ namespace CAPTasksMVC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Redirect("../Views/Shared/Error.cshtml");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             else
@@ -55,11 +55,17 @@ namespace CAPTasksMVC.Controllers
         public ActionResult CrearTarea()
         {
             ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Baja", Value = "0" });
+            items.Add(new SelectListItem { Text = "Media", Value = "1" });
+            items.Add(new SelectListItem { Text = "Alta", Value = "2" });
+            items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
+            ViewBag.Prioridad = items;
             return View();
         }
 
         [HttpPost]
-        public ActionResult CrearTarea(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fecha, int prioridad)
+        public ActionResult CrearTarea(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fechaFin, int prioridad)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +75,7 @@ namespace CAPTasksMVC.Controllers
                     miTarea.IdUsuario = idUsuario;
                     miTarea.Nombre = nombre;
                     miTarea.Descripcion = descripcion;
-                    miTarea.FechaFin = fecha;
+                    miTarea.FechaFin = fechaFin;
                     miTarea.IdCarpeta = idCarpeta;
                     miTarea.Prioridad = Convert.ToInt16(prioridad);
                     miTarea.Estado = 1;
@@ -79,7 +85,7 @@ namespace CAPTasksMVC.Controllers
                 }
                 catch(Exception ex)
                 {
-                    return Redirect("../Views/Shared/Error.cshtml");
+                    return RedirectToAction("Error", "Shared");
                 }
             }
             else

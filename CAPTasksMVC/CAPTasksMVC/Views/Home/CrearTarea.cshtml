@@ -3,15 +3,7 @@
     ViewBag.Title = "CrearTarea";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $(function () {
-            $("#datepicker").datepicker();
-            $('#datepicker').datepicker('option', { dateFormat: 'dd/mm/yy' });
-        }); 
-    </script>
-}
+
 <div class="container margin-bottom">
     <div id="page-wrapper" class="col-md-6 col-md-offset-3">
         <h3 class="page-header">
@@ -41,18 +33,14 @@
             <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                <input type="text" id="datepicker" name="fecha" />
+                @Html.EditorFor(model => model.FechaFin)
+                @Html.ValidationMessageFor(model => model.FechaFin)
             </div>
             <br />
             @Html.LabelFor(model => model.Prioridad)
             <div class="row">
                <div class="form-group col-md-6">
-                    <select id="Select1" name="prioridad">
-                        <option value="0">Baja</option>
-                        <option value="1">Media</option>
-                        <option value="2">Alta</option>
-                        <option value="3">Urgente</option>
-                    </select>
+                   @Html.DropDownList("Prioridad")
                     @Html.ValidationMessageFor(model => model.Prioridad)
                 </div>
                 <div class="form-group col-md-6">
@@ -73,3 +61,6 @@
         }
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+  }
