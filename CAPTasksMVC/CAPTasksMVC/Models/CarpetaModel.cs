@@ -26,6 +26,7 @@ namespace CAPTasksMVC.Models
 
             [Required(ErrorMessage = "Campo obligatorio")]
             [StringLength(200, ErrorMessage = "Maximo 200 caracteres")]
+            [DataType(DataType.MultilineText)]
             public string Descripcion{get;set;}
         }
     }
