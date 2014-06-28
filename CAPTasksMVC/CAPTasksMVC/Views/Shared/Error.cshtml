@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
+    <title>Error General</title>
     <!-- Core CSS - Include with every page -->
     <link rel="Stylesheet" type="text/css" href="../../Content/css/bootstrap.min.css"
         media="all" />
@@ -14,7 +14,7 @@
         media="all" />
     <!-- SB Admin CSS - Include with every page -->
     <link rel="Stylesheet" type="text/css" href="../../Content/css/captasks.css" media="all" />
-    <link rel="shortcut icon" href="../../Content/img/favicon.ico">
+    <link rel="shortcut icon" href="../../Content/img/favicon.ico" media="all"/>
     <!-- Core Scripts - Include with every page -->
     <script language="javascript" type="text/javascript" src="../../Scripts/js/jquery-1.10.2.js"></script>
     <script language="javascript" type="text/javascript" src="../../Scripts/js/bootstrap.min.js"></script>
@@ -22,7 +22,7 @@
 <body>
     <div class='header container'>
         <div class="contenedor-imagen col-md-6">
-            <img src="../../Content/img/Error.png" />
+            <img alt="" src="../../Content/img/Error.png" />
         </div>
         <div class="col-md-6">
             <blockquote>
@@ -30,7 +30,8 @@
                     <p>
                         Lo sentimos, se produjo un error al procesar la solicitud.</p>
                 </h3>
-                <footer>El equipo de CAPTasks!</cite></footer>
+                <footer>El equipo de CAPTasks!</footer> 
+               <h3><center>@Html.ActionLink("Volver al Home", "Home", "Home")</center></h3>               
             </blockquote>
         </div>
     </div>

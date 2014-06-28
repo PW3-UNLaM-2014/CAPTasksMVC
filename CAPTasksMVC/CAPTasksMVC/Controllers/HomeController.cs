@@ -16,8 +16,8 @@ namespace CAPTasksMVC.Controllers
 
         public ActionResult Home()
         {
-            //var carpetas = (from car in cap.Carpetas select car).ToList();
-            var resultado = (from car in cap.Tareas select car).ToList();//modificar para que muestre solo las del usuario logueado
+            //var carpetas = (from carpetas in cap.Carpetas select carpetas).ToList();
+            var resultado = (from tareas in cap.Tareas select tareas).ToList();//modificar para que muestre solo las del usuario logueado
             return View(resultado);
         }
 
@@ -29,6 +29,7 @@ namespace CAPTasksMVC.Controllers
         [HttpPost]
         public ActionResult CrearCarpeta(Carpetas carpeta)
         {
+            
             if (ModelState.IsValid)
             {
                 try
@@ -44,6 +45,8 @@ namespace CAPTasksMVC.Controllers
                 }
                 catch (Exception ex)
                 {
+                    string mensaje = "Error al crear la carpeta";
+                    ClientException.LogException(ex, mensaje);
                     return RedirectToAction("Error", "Shared");
                 }
             }
@@ -85,6 +88,8 @@ namespace CAPTasksMVC.Controllers
                 }
                 catch (Exception ex)
                 {
+                    string mensaje = "Error al crear la tarea";
+                    ClientException.LogException(ex, mensaje);
                     return RedirectToAction("Error", "Shared");
                 }
             }
@@ -112,7 +117,6 @@ namespace CAPTasksMVC.Controllers
             items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
             ViewBag.Prioridad = items;
             return View(tarea);
-
         }
 
         [HttpPost]
@@ -134,6 +138,8 @@ namespace CAPTasksMVC.Controllers
                 }
                 catch (Exception ex)
                 {
+                    string mensaje = "Error al modificar la tarea";
+                    ClientException.LogException(ex, mensaje);
                     return RedirectToAction("Error", "Shared");
                 }
             }
@@ -149,7 +155,6 @@ namespace CAPTasksMVC.Controllers
                 ViewBag.Prioridad = items;
                 return View(tarea);
             }
-
         }
 
         public ActionResult EliminarTarea(int idTarea)
@@ -164,10 +169,18 @@ namespace CAPTasksMVC.Controllers
             var baja = (from e in cap.Tareas
                         where e.IdTarea == idTarea
                         select e).Single();
-
-            cap.Tareas.DeleteObject(baja);
-            cap.SaveChanges();
-            return RedirectToAction("Home");
+            try
+            {
+                cap.Tareas.DeleteObject(baja);
+                cap.SaveChanges();
+                return RedirectToAction("Home");
+            }
+            catch(Exception ex)
+            {
+                string mensaje = "Error al eliminar la tarea";
+                ClientException.LogException(ex, mensaje);
+                return RedirectToAction("Error", "Shared");
+            }
         }
     }
 }
