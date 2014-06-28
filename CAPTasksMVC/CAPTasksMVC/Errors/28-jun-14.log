@@ -1,0 +1,26 @@
+
+ Fecha del Log : 28/06/2014 06:21:04 p.m.
+ Error ocurrido en la pagina : http://localhost:49226/Home/ModificarTarea
+
+ Descripcion :
+System.Data.UpdateException: Se produjo un error mientras se actualizaban las entradas. Vea la excepción interna para obtener detalles. ---> System.Data.SqlClient.SqlException: Instrucción UPDATE en conflicto con la restricción FOREIGN KEY "FK_Tareas_Usuarios". El conflicto ha aparecido en la base de datos "CAPTasks", tabla "dbo.Usuarios", column 'IdUsuario'.
+Se terminó la instrucción.
+   en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   en System.Data.Mapping.Update.Internal.DynamicUpdateCommand.Execute(UpdateTranslator translator, EntityConnection connection, Dictionary`2 identifierValues, List`1 generatedValues)
+   en System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   --- Fin del seguimiento de la pila de la excepción interna ---
+   en System.Data.Mapping.Update.Internal.UpdateTranslator.Update(IEntityStateManager stateManager, IEntityAdapter adapter)
+   en System.Data.EntityClient.EntityAdapter.Update(IEntityStateManager entityCache)
+   en System.Data.Objects.ObjectContext.SaveChanges(SaveOptions options)
+   en System.Data.Objects.ObjectContext.SaveChanges()
+   en CAPTasksMVC.Controllers.HomeController.ModificarTarea(Int32 idTarea, Int32 idUsuario, Int32 idCarpeta, String nombre, String descripcion, DateTime fechaFin, Int32 prioridad) en C:\Users\CeGisele\TPWEB3\CAPTasksMVC\CAPTasksMVC\CAPTasksMVC\Controllers\HomeController.cs:línea 136
+
+<===========================================================================>
