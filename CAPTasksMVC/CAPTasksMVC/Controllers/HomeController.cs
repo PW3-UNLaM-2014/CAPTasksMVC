@@ -67,11 +67,11 @@ namespace CAPTasksMVC.Controllers
         [HttpPost]
         public ActionResult CrearTarea(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fechaFin, int prioridad)
         {
+            Tareas miTarea = new Tareas();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Tareas miTarea = new Tareas();
                     miTarea.IdUsuario = idUsuario;
                     miTarea.Nombre = nombre;
                     miTarea.Descripcion = descripcion;
@@ -83,28 +83,72 @@ namespace CAPTasksMVC.Controllers
                     cap.SaveChanges();
                     return RedirectToAction("Home");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return RedirectToAction("Error", "Shared");
                 }
             }
             else
-                return View();
+            {
+                ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "Baja", Value = "0" });
+                items.Add(new SelectListItem { Text = "Media", Value = "1" });
+                items.Add(new SelectListItem { Text = "Alta", Value = "2" });
+                items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
+                ViewBag.Prioridad = items;
+                return View(miTarea);
+            }
         }
 
         public ActionResult ModificarTarea(int idTarea)
         {
             Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
             ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Baja", Value = "0" });
+            items.Add(new SelectListItem { Text = "Media", Value = "1" });
+            items.Add(new SelectListItem { Text = "Alta", Value = "2" });
+            items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
+            ViewBag.Prioridad = items;
             return View(tarea);
 
         }
 
         [HttpPost]
-        public ActionResult ModificarTarea()
+        public ActionResult ModificarTarea(int idTarea, int idUsuario, int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
         {
-            
-            return View();
+            Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    tarea.IdCarpeta = idCarpeta;
+                    tarea.Nombre = nombre;
+                    tarea.Descripcion = descripcion;
+                    tarea.IdUsuario = idUsuario;
+                    tarea.FechaFin = fechaFin;
+                    tarea.Prioridad = Convert.ToInt16(prioridad);
+                    cap.SaveChanges();
+                    return RedirectToAction("Home");
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Error", "Shared");
+                }
+            }
+
+            else
+            {
+                ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "Baja", Value = "0" });
+                items.Add(new SelectListItem { Text = "Media", Value = "1" });
+                items.Add(new SelectListItem { Text = "Alta", Value = "2" });
+                items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
+                ViewBag.Prioridad = items;
+                return View(tarea);
+            }
 
         }
 
@@ -118,7 +162,7 @@ namespace CAPTasksMVC.Controllers
         public ActionResult Eliminar(int idTarea)
         {
             var baja = (from e in cap.Tareas
-                        where e.IdTarea==idTarea
+                        where e.IdTarea == idTarea
                         select e).Single();
 
             cap.Tareas.DeleteObject(baja);

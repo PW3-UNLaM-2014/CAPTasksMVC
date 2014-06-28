@@ -6,20 +6,28 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $(function () {
-            $("#datepicker").datepicker();
-            $('#datepicker').datepicker('option', { dateFormat: 'dd/mm/yy' });
-        }); 
+      $(document).ready(function () {
+          $('#FechaFin').datepicker({
+              dateFormat: "dd/mm/yy",
+          });
+      });
     </script>
 }
 <div class="container margin-bottom">
     <div id="page-wrapper" class="col-md-6 col-md-offset-3">
         <h3 class="page-header">
             Modificar tarea</h3>
-        @using (Html.BeginForm("ModificarTarea","Home",FormMethod.Post))
+        @using (Html.BeginForm("ModificarTarea", "Home", FormMethod.Post))
         {
             @Html.ValidationSummary(true)
 
+            //CAMPO OCULTO PARA CAPTURAR EL ID DE USUARIO:
+            <div>
+                @Html.Hidden("idUsuario", 84)
+            </div>
+            <div>
+                @Html.HiddenFor(model => model.IdTarea)
+            </div>
             <div>
                 @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
                 <br />
@@ -37,25 +45,21 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Descripcion)
                 <br />
-                @Html.TextAreaFor(model => model.Descripcion)
+                @Html.EditorFor(model => model.Descripcion)
                 @Html.ValidationMessageFor(model => model.Descripcion)
             </div>
 
-             <div>
+            <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                <input type="text" id="datepicker" name="fecha"/>
+                @Html.TextBoxFor(model => model.FechaFin) @*Asi Funciona con datapicker. La propiedad de TareaModel con EditorFor*@
+                @Html.ValidationMessageFor(model => model.FechaFin)
             </div>
 
-             @Html.LabelFor(model => model.Prioridad)
+            @Html.LabelFor(model => model.Prioridad)
             <div class="row">
-               <div class="form-group col-md-6">
-                    <select id="Select1" name="prioridad">
-                        <option value="0">Baja</option>
-                        <option value="1">Media</option>
-                        <option value="2">Alta</option>
-                        <option value="3">Urgente</option>
-                    </select>
+                <div class="form-group col-md-6">
+                    @Html.DropDownList("Prioridad")
                     @Html.ValidationMessageFor(model => model.Prioridad)
                 </div>
             </div>
