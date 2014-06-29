@@ -3,16 +3,7 @@
     ViewBag.Title = "ModificarTarea";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-      $(document).ready(function () {
-          $('#FechaFin').datepicker({
-              dateFormat: "dd/mm/yy",
-          });
-      });
-    </script>
-}
+
 <div class="container margin-bottom">
     <div id="page-wrapper" class="col-md-6 col-md-offset-3">
         <h3 class="page-header">
@@ -21,10 +12,6 @@
         {
             @Html.ValidationSummary(true)
 
-            //CAMPO OCULTO PARA CAPTURAR EL ID DE USUARIO:
-            <div>
-                @Html.Hidden("idUsuario", 84)
-            </div>
             <div>
                 @Html.HiddenFor(model => model.IdTarea)
             </div>
@@ -52,7 +39,7 @@
             <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                @Html.TextBoxFor(model => model.FechaFin) @*Asi Funciona con datapicker. La propiedad de TareaModel con EditorFor*@
+                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}") 
                 @Html.ValidationMessageFor(model => model.FechaFin)
             </div>
 
@@ -70,3 +57,6 @@
         }
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")  
+}

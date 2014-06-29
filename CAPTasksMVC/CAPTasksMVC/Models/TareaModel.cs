@@ -24,8 +24,8 @@ namespace CAPTasksMVC.Models
 
             [Required(ErrorMessage = "Introduzca una fecha valida")]
             [DisplayName("Fecha Finalización")]
-            [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}")]
-            [DataType(DataType.Date)]
+            //[DisplayFormat(DataFormatString = "{0:dd/mm/yyyy}")]
+            //[DataType(DataType.Date)]
             public DateTime FechaFin { set; get; }
 
             public int Prioridad { set; get; }

@@ -120,7 +120,7 @@ namespace CAPTasksMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult ModificarTarea(int idTarea, int idUsuario, int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
+        public ActionResult ModificarTarea(int idTarea,int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
         {
             Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
             if (ModelState.IsValid)
@@ -130,7 +130,6 @@ namespace CAPTasksMVC.Controllers
                     tarea.IdCarpeta = idCarpeta;
                     tarea.Nombre = nombre;
                     tarea.Descripcion = descripcion;
-                    tarea.IdUsuario = idUsuario;
                     tarea.FechaFin = fechaFin;
                     tarea.Prioridad = Convert.ToInt16(prioridad);
                     cap.SaveChanges();
