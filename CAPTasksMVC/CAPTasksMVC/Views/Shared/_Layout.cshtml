@@ -22,13 +22,22 @@
     <link href="../../Content/datepicker/demos.css" media="all" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#FechaFin').datepicker({ dateFormat: "dd/mm/yy", minDate: "D" });
-            $.validator.addMethod('date', function (value, element, params) {
-                if (this.optional(element)) { return true; } var ok = true;
-                try { $.datepicker.parseDate('dd/mm/yy', value); }
-                catch (err) { ok = false; } return ok;
-            });
-        }); 
+            $('#FechaFin').datepicker({ dateFormat: "dd/mm/yy", minDate:"D" });
+            $.validator.addMethod('date',
+      function (value, element, params) {
+        if (this.optional(element)) {
+            return true;
+        }
+        var ok = true;
+        try {
+            $.datepicker.parseDate('dd/mm/yy', value);
+        }
+        catch (err) {
+            ok = false;
+        }
+        return ok;
+     });
+        });
     </script>
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
