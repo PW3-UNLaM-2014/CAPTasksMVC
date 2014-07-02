@@ -4,16 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CAPTasksMVC.Models;
+using CAPTasksMVC.Servicios;
 
 namespace CAPTasksMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private CAPTasksEntities cap = new CAPTasksEntities();
-
-        //
-        // GET: /Home/
-
+        private CAPTasksEntities cap = new CAPTasksEntities(); // BORRAR 
+        CarpetasServicios cs = new CarpetasServicios();
+        TareasServicios ts = new TareasServicios();
+        
         public ActionResult Home()
         {
             //var carpetas = (from carpetas in cap.Carpetas select carpetas).ToList();
@@ -34,13 +34,7 @@ namespace CAPTasksMVC.Controllers
             {
                 try
                 {
-                    //Carpetas miCarpeta = new Carpetas();
-                    //miCarpeta.IdUsuario = idUsuario;
-                    //miCarpeta.Nombre = nombre;
-                    //miCarpeta.Descripcion = descripcion;
-                    //cap.AddToCarpetas(miCarpeta);
-                    cap.AddToCarpetas(carpeta);
-                    cap.SaveChanges();
+                    cs.CrearCarpeta(carpeta);
                     return RedirectToAction("Home");
                 }
                 catch (Exception ex)
