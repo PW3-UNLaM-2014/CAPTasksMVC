@@ -8,6 +8,10 @@ using CAPTasksMVC.Servicios;
 
 namespace CAPTasksMVC.Controllers
 {
+    /**
+     * Autorize determina si se debe estar logueado o no.
+     * */
+    //[Authorize]
     public class HomeController : Controller
     {
         CAPTasksEntities cap = new CAPTasksEntities();
