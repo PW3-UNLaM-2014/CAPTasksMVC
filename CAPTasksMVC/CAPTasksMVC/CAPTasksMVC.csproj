@@ -44,6 +44,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -138,6 +139,7 @@
       <DependentUpon>CAPTasks.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\CarpetaModel.cs" />
+    <Compile Include="Models\PasswordManagement.cs" />
     <Compile Include="Models\TareaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -252,7 +254,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\CAPTasks.edmx">
