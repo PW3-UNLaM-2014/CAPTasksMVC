@@ -10,9 +10,8 @@ namespace CAPTasksMVC.Controllers
 {
     public class AccountController : Controller
     {
-        //
-        // GET: /Account/
-
+        CAPTasksEntities entities = new CAPTasksEntities();
+                
         public ActionResult Index()
         {
             return View();
@@ -29,8 +28,7 @@ namespace CAPTasksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (CAPTasksEntities entities = new CAPTasksEntities())
-                {
+                
                     string username = model.Nombre;
                     string password = model.Contrasenia;
 
@@ -53,15 +51,12 @@ namespace CAPTasksMVC.Controllers
                         {
                             return RedirectToAction("Home", "Home");
                         }
-
-
                     }
                     else
                     {
                         ModelState.AddModelError("", "El nombre de usuario o la contrase&ntilde;a no son correctos.");
 
                     }
-                }
             }
             return View(model);
         }

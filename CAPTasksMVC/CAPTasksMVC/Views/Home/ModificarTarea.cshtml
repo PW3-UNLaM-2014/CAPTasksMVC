@@ -46,7 +46,32 @@
             @Html.LabelFor(model => model.Prioridad)
             <div class="row">
                 <div class="form-group col-md-6">
-                    @Html.DropDownList("Prioridad")
+                    @{
+            List<SelectListItem> listPrioridad = new List<SelectListItem>();
+            listPrioridad.Add(new SelectListItem
+            {
+                Text = "Baja", 
+                Value = "0",
+                Selected = true
+            });
+            listPrioridad.Add(new SelectListItem
+            {
+                Text = "Media",
+                Value = "1",
+                
+            });
+            listPrioridad.Add(new SelectListItem
+            {
+                Text = "Alta",
+                Value = "2"
+            });
+            listPrioridad.Add(new SelectListItem
+            {
+                Text = "Urgente",
+                Value = "3"
+            });
+                    }
+                    @Html.DropDownListFor(model => model.Prioridad, listPrioridad)
                     @Html.ValidationMessageFor(model => model.Prioridad)
                 </div>
             </div>

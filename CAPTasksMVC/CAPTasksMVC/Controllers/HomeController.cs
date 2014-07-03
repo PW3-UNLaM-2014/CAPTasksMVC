@@ -55,12 +55,6 @@ namespace CAPTasksMVC.Controllers
         public ActionResult CrearTarea()
         {
             ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Baja", Value = "0" });
-            items.Add(new SelectListItem { Text = "Media", Value = "1" });
-            items.Add(new SelectListItem { Text = "Alta", Value = "2" });
-            items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
-            ViewBag.Prioridad = items;
             return View();
         }
 
@@ -83,12 +77,6 @@ namespace CAPTasksMVC.Controllers
             else
             {
                 ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
-                List<SelectListItem> items = new List<SelectListItem>();
-                items.Add(new SelectListItem { Text = "Baja", Value = "0" });
-                items.Add(new SelectListItem { Text = "Media", Value = "1" });
-                items.Add(new SelectListItem { Text = "Alta", Value = "2" });
-                items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
-                ViewBag.Prioridad = items;
                 return View();
             }
         }
@@ -97,12 +85,6 @@ namespace CAPTasksMVC.Controllers
         {
             Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
             ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Baja", Value = "0" });
-            items.Add(new SelectListItem { Text = "Media", Value = "1" });
-            items.Add(new SelectListItem { Text = "Alta", Value = "2" });
-            items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
-            ViewBag.Prioridad = items;
             return View(tarea);
         }
 
@@ -127,12 +109,6 @@ namespace CAPTasksMVC.Controllers
             else
             {
                 ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
-                List<SelectListItem> items = new List<SelectListItem>();
-                items.Add(new SelectListItem { Text = "Baja", Value = "0" });
-                items.Add(new SelectListItem { Text = "Media", Value = "1" });
-                items.Add(new SelectListItem { Text = "Alta", Value = "2" });
-                items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
-                ViewBag.Prioridad = items;
                 return View();
             }
         }

@@ -12,9 +12,11 @@ namespace CAPTasksMVC.Models
         public class UsuarioModel
         {
             [Required(ErrorMessage = "Campo Obligatorio")]
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
             public object Nombre { get; set; }
 
             [Required(ErrorMessage = "Campo Obligatorio")]
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
             [DataType(DataType.Password)]
             public object Contrasenia { get; set; }
 
