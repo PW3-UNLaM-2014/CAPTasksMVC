@@ -4,20 +4,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CAPTasksMVC.Models;
+using CAPTasksMVC.Servicios;
 
 namespace CAPTasksMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private CAPTasksEntities cap = new CAPTasksEntities();
+        CAPTasksEntities cap = new CAPTasksEntities();
 
-        //
-        // GET: /Home/
-
+        CarpetasServicios cs = new CarpetasServicios();
+        TareasServicios ts = new TareasServicios();
+        
         public ActionResult Home()
-        {
-            //var carpetas = (from car in cap.Carpetas select car).ToList();
-            var resultado = (from car in cap.Tareas select car).ToList();//modificar para que muestre solo las del usuario logueado
+        {          
+            var resultado = (from tareas in cap.Tareas select tareas).ToList();
             return View(resultado);
         }
 
@@ -29,21 +29,17 @@ namespace CAPTasksMVC.Controllers
         [HttpPost]
         public ActionResult CrearCarpeta(Carpetas carpeta)
         {
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //Carpetas miCarpeta = new Carpetas();
-                    //miCarpeta.IdUsuario = idUsuario;
-                    //miCarpeta.Nombre = nombre;
-                    //miCarpeta.Descripcion = descripcion;
-                    //cap.AddToCarpetas(miCarpeta);
-                    cap.AddToCarpetas(carpeta);
-                    cap.SaveChanges();
+                    cs.CrearCarpeta(carpeta);
                     return RedirectToAction("Home");
                 }
                 catch (Exception ex)
                 {
+                    ClientException.LogException(ex, "Error al crear la carpeta");
                     return RedirectToAction("Error", "Shared");
                 }
             }
@@ -66,25 +62,17 @@ namespace CAPTasksMVC.Controllers
 
         [HttpPost]
         public ActionResult CrearTarea(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fechaFin, int prioridad)
-        {
-            Tareas miTarea = new Tareas();
+        {        
             if (ModelState.IsValid)
             {
                 try
                 {
-                    miTarea.IdUsuario = idUsuario;
-                    miTarea.Nombre = nombre;
-                    miTarea.Descripcion = descripcion;
-                    miTarea.FechaFin = fechaFin;
-                    miTarea.IdCarpeta = idCarpeta;
-                    miTarea.Prioridad = Convert.ToInt16(prioridad);
-                    miTarea.Estado = 1;
-                    cap.Tareas.AddObject(miTarea);
-                    cap.SaveChanges();
+                    ts.CrearTarea(idUsuario, nombre, descripcion, idCarpeta, fechaFin, prioridad);
                     return RedirectToAction("Home");
                 }
                 catch (Exception ex)
                 {
+                    ClientException.LogException(ex, "Error al crear la tarea");
                     return RedirectToAction("Error", "Shared");
                 }
             }
@@ -97,7 +85,7 @@ namespace CAPTasksMVC.Controllers
                 items.Add(new SelectListItem { Text = "Alta", Value = "2" });
                 items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
                 ViewBag.Prioridad = items;
-                return View(miTarea);
+                return View();
             }
         }
 
@@ -112,28 +100,22 @@ namespace CAPTasksMVC.Controllers
             items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
             ViewBag.Prioridad = items;
             return View(tarea);
-
         }
 
         [HttpPost]
-        public ActionResult ModificarTarea(int idTarea, int idUsuario, int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
+        public ActionResult ModificarTarea(int idTarea,int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
         {
-            Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
+           
             if (ModelState.IsValid)
             {
                 try
                 {
-                    tarea.IdCarpeta = idCarpeta;
-                    tarea.Nombre = nombre;
-                    tarea.Descripcion = descripcion;
-                    tarea.IdUsuario = idUsuario;
-                    tarea.FechaFin = fechaFin;
-                    tarea.Prioridad = Convert.ToInt16(prioridad);
-                    cap.SaveChanges();
+                    ts.ModificarTarea(idTarea, idCarpeta, nombre, descripcion, fechaFin, prioridad);
                     return RedirectToAction("Home");
                 }
                 catch (Exception ex)
                 {
+                    ClientException.LogException(ex, "Error al modificar la tarea");
                     return RedirectToAction("Error", "Shared");
                 }
             }
@@ -147,9 +129,8 @@ namespace CAPTasksMVC.Controllers
                 items.Add(new SelectListItem { Text = "Alta", Value = "2" });
                 items.Add(new SelectListItem { Text = "Urgente", Value = "3" });
                 ViewBag.Prioridad = items;
-                return View(tarea);
+                return View();
             }
-
         }
 
         public ActionResult EliminarTarea(int idTarea)
@@ -161,13 +142,16 @@ namespace CAPTasksMVC.Controllers
         [HttpPost, ActionName("EliminarTarea")]
         public ActionResult Eliminar(int idTarea)
         {
-            var baja = (from e in cap.Tareas
-                        where e.IdTarea == idTarea
-                        select e).Single();
-
-            cap.Tareas.DeleteObject(baja);
-            cap.SaveChanges();
-            return RedirectToAction("Home");
+            try
+            {
+                ts.EliminarTarea(idTarea);
+                return RedirectToAction("Home");
+            }
+            catch(Exception ex)
+            {
+                ClientException.LogException(ex, "Error al eliminar la tarea");
+                return RedirectToAction("Error", "Shared");
+            }
         }
     }
 }
