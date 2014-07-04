@@ -49,7 +49,10 @@ namespace CAPTasksMVC.Controllers
                 }
             }
             else
-                return View(carpeta);
+            {
+                ViewData["mensaje1"] = "Error al crear la carpeta";
+                return View();
+            }
         }
 
 
@@ -78,6 +81,7 @@ namespace CAPTasksMVC.Controllers
             else
             {
                 ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+                ViewData["mensaje2"] = "Error al crear la tarea";
                 return View();
             }
         }
@@ -110,6 +114,7 @@ namespace CAPTasksMVC.Controllers
             else
             {
                 ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+                ViewData["mensaje3"] = "Error al modificar la tarea";
                 return View();
             }
         }
