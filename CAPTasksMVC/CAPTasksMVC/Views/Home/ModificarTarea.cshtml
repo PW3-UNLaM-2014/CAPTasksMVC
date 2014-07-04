@@ -18,34 +18,30 @@
             <div>
                 @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
                 <br />
-                @Html.DropDownList("IdCarpeta")
+                @Html.DropDownList("IdCarpeta", null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IdCarpeta)
-            </div>
-       
+            </div>      
             <div class="form-group">
                 @Html.LabelFor(model => model.Nombre)
                 <br />
-                @Html.EditorFor(model => model.Nombre)
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Nombre)
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.Descripcion)
                 <br />
-                @Html.EditorFor(model => model.Descripcion)
+                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Descripcion)
             </div>
-
             <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}") 
+                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { @class = "form-control" }) 
                 @Html.ValidationMessageFor(model => model.FechaFin)
-            </div>
-
-            @Html.LabelFor(model => model.Prioridad)
+            </div>           
             <div class="row">
                 <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Prioridad)
                     @{
             List<SelectListItem> listPrioridad = new List<SelectListItem>();
             listPrioridad.Add(new SelectListItem
@@ -71,14 +67,14 @@
                 Value = "3"
             });
                     }
-                    @Html.DropDownListFor(model => model.Prioridad, listPrioridad)
+                    @Html.DropDownListFor(model => model.Prioridad, listPrioridad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Prioridad)
                 </div>
             </div>
             <br />
-            <p>
-                <input type="submit" id="btnGuardarCambios" class="btn btn-success" value="Guardar" />
-            </p>
+            <center>
+                <input type="submit" id="btnGuardarCambios" class="btn btn-success" value="Guardar Cambios" />
+            </center>
         }
     </div>
 </div>

@@ -8,31 +8,28 @@
         Nueva Carpeta</h3>
     @using (Html.BeginForm("CrearCarpeta", "Home", FormMethod.Post))
     {
-        @Html.ValidationSummary(true)
-    
-        //CAMPO OCULTO PARA CAPTURAR EL ID DE USUARIO. 84 ES MI USUARIO CREADO, SE DEBERIA REEMPLAZAR POR SESSION["IdUsuario"]:
+        @Html.ValidationSummary(true)    
+        //CAMPO OCULTO PARA CAPTURAR EL ID DE USUARIO. 84 ES MI USUARIO CREADO
         <div>
             @Html.Hidden("idUsuario", 84)
-        </div>
-    
+        </div>   
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre)
             <br />
-            @Html.EditorFor(model => model.Nombre)
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Nombre)
         </div> 
-        <br />
-   
+        <br />  
         <div class="form-group">
             @Html.LabelFor(model => model.Descripcion)
             <br />
-            @Html.EditorFor(model => model.Descripcion)
+            @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Descripcion)
         </div>
-
-        <p>
+        <br />
+        <center>
             <input type="submit" id="btnGuardarCarpeta" class="btn btn-success" value="Crear Carpeta" />
-        </p>   
+        </center>   
     }
 </div>
 @section Scripts {

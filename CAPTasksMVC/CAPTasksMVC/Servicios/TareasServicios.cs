@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CAPTasksMVC.Models;
 using CAPTasksMVC.Repositorios;
+using System.Web.Mvc;
 
 namespace CAPTasksMVC.Servicios
 {
@@ -22,6 +24,16 @@ namespace CAPTasksMVC.Servicios
         public void EliminarTarea(int idTarea)
         {
             tr.EliminarTarea(idTarea);
+        }
+
+        public Tareas ObtenerTareaModificar(int idTarea)
+        {
+            return tr.ObtenerTareaModificar(idTarea);
+        }
+
+        public Tareas ObtenerTareaEliminar(int idTarea)
+        {
+            return tr.ObtenerTareaEliminar(idTarea);
         }
     }
 }
