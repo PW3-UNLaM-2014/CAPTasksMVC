@@ -80,7 +80,6 @@ namespace CAPTasksMVC.Controllers
             }
             else
             {
-                ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
                 ViewData["mensaje2"] = "Error al crear la tarea";
                 return View();
             }
@@ -89,7 +88,7 @@ namespace CAPTasksMVC.Controllers
         public ActionResult ModificarTarea(int idTarea)
         {
             Tareas tarea = ts.ObtenerTareaModificar(idTarea);
-            ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre", tarea.IdCarpeta);
             return View(tarea);
         }
 
@@ -113,7 +112,6 @@ namespace CAPTasksMVC.Controllers
 
             else
             {
-                ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
                 ViewData["mensaje3"] = "Error al modificar la tarea";
                 return View();
             }
