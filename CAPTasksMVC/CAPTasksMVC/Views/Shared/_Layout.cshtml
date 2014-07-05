@@ -47,7 +47,7 @@
 </head>
 <body>
     <div class="navbar navbar-fixed-top">
-        <div class='container'>
+        <div class='container' id="♣">
             <div class="col-md-6">
                 <a class="navbar-brand">
                     <h4>
@@ -57,7 +57,9 @@
             </div>
             <div id="divSessionInfo" class="col-md-6 text-right">
                 Bienvenido, @User.Identity.Name
-                <input id="btnSalir" type="button" value="&#xf08b; Salir" class="btn btn-default fa-with-txt btn-sm" />
+                <a href="~/Account/LogOff">
+                    <input id="btnSalir" type="button" value="&#xf08b; Salir" class="btn btn-default fa-with-txt btn-sm" />
+                </a>
             </div>
         </div>
     </div>

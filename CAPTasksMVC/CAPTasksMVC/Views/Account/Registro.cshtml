@@ -1,0 +1,38 @@
+﻿@model CAPTasksMVC.Models.Usuarios
+
+
+@using (Html.BeginForm("Registro", "Account", FormMethod.Post, new { @class = "form" })) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Registracion</legend>
+
+        <div class="form-group">
+        @Html.LabelFor(m => m.Nombre)
+        @Html.EditorFor(m => m.Nombre)
+        @Html.ValidationMessageFor(m => m.Nombre)
+        </div>
+        <div class="form-group">
+        @Html.LabelFor(m => m.Apellido)
+        @Html.EditorFor(m => m.Apellido)
+        @Html.ValidationMessageFor(m => m.Apellido)
+        </div>
+        <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.EditorFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+        </div>
+        <div class="form-group">
+        @Html.LabelFor(m => m.Contrasenia)
+        @Html.PasswordFor(m => m.Contrasenia)
+        @Html.ValidationMessageFor(m => m.Contrasenia)
+        </div>
+        @Html.HiddenFor(m => m.FechaCreacion, DateTime.Today)
+        @Html.HiddenFor(m => m.Estado, Convert.ToInt16(0))
+        @Html.HiddenFor(m => m.FechaActivacion, DateTime.Today)
+        @Html.HiddenFor(m => m.CodigoActivacion,"")
+        <p>
+             <input type="submit" id="btnCrear" value="Registrarme!" class="btn btn-success" />
+            </p>
+    </fieldset>
+}

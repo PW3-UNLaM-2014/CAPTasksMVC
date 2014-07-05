@@ -8,10 +8,11 @@ using CAPTasksMVC.Models;
 
 namespace CAPTasksMVC.Controllers
 {
+
     public class AccountController : Controller
     {
         CAPTasksEntities entities = new CAPTasksEntities();
-                
+
         public ActionResult Index()
         {
             return View();
@@ -28,35 +29,35 @@ namespace CAPTasksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                    string username = model.Nombre;
-                    string password = model.Contrasenia;
 
-                    PasswordManagement criptografia = new PasswordManagement();
+                string username = model.Nombre;
+                string password = model.Contrasenia;
 
-                    password = criptografia.Encrypt(password);
+               /* PasswordManagement criptografia = new PasswordManagement();
 
-                    bool userValid = entities.Usuarios.Any(user => user.Nombre == username && user.Contrasenia == password);
+                password = criptografia.Decrypt(password);
+                */
+                bool userValid = entities.Usuarios.Any(user => user.Nombre == username && user.Contrasenia == password);
 
-                    if (userValid)
+                if (userValid)
+                {
+                    FormsAuthentication.SetAuthCookie(username, false);
+
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
-                        FormsAuthentication.SetAuthCookie(username, false);
-
-                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Home", "Home");
-                        }
+                        return Redirect(returnUrl);
                     }
                     else
                     {
-                        ModelState.AddModelError("", "El nombre de usuario o la contrase&ntilde;a no son correctos.");
-
+                        return RedirectToAction("Home", "Home");
                     }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "El nombre de usuario o la contrase&ntilde;a no son correctos.");
+
+                }
             }
             return View(model);
         }
@@ -64,9 +65,90 @@ namespace CAPTasksMVC.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult Users()
+        {
+            List<Usuarios> user = new List<Usuarios>();
+            user = (from usuarios in entities.Usuarios select usuarios).ToList();
+
+            return View(user);
         }
 
 
+        public ActionResult Registro()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Registro(Usuarios model)
+        {
+            // Creo que el encriptado no funciona porque el campo en la bdd es demasiado chico. 
+            if (ModelState.IsValid)
+            {
+
+                //PasswordManagement manejoDeContrasenia = new PasswordManagement();
+                //model.Contrasenia = manejoDeContrasenia.Encrypt(model.Contrasenia);
+                model.FechaActivacion = DateTime.Now;
+                model.FechaCreacion = DateTime.Now;
+                Int16 IsActive = 1;
+                model.Estado = IsActive;
+                model.CodigoActivacion = model.Email;
+
+                entities.Usuarios.AddObject(model);
+                entities.SaveChanges();
+
+                return RedirectToAction("Home","Home");
+            }
+            else {
+                return RedirectToAction("Index");
+            }
+
+            
+        }
+
+        //ACTIVACION DE REGISTRACION:
+        public bool ActivarUsuario(string codAct)
+        {
+
+            try
+            {
+                // Encontrar al propietario del codigo de activacion
+                var user = (from usuarios in entities.Usuarios
+                            where usuarios.CodigoActivacion == codAct
+                            select usuarios).First();
+
+                // Solo se activa el usuario si la activacion se realiza dentro de los 15 min.
+                if ((DateTime.Today - user.FechaCreacion).Minutes < 15)
+                {
+                    user.Estado = 1;
+                    user.FechaActivacion = DateTime.Today;
+                    entities.SaveChanges();
+                }
+                return true;
+            }
+            catch
+            {
+                //Vencio el plazo de validez del enlace
+                return false;
+            }
+
+        }
+
+        //VERIFICAR SI YA EXISTE UN USUARIO REGISTRADO ACTIVO CON ESE MAIL EN LA LISTA DE USUARIOS:
+        public Usuarios VerificarEmail(string email)
+        {
+
+            var user = (from usuarios in entities.Usuarios
+                        where usuarios.Email == email
+                        && usuarios.Estado != 0
+                        select usuarios
+                             ).First();
+
+            return user;
+
+        }
     }
 }

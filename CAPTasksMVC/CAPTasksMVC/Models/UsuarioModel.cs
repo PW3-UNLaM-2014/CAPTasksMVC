@@ -11,14 +11,28 @@ namespace CAPTasksMVC.Models
     {
         public class UsuarioModel
         {
-            [Required(ErrorMessage = "Campo Obligatorio")]
             [DisplayFormat(ConvertEmptyStringToNull = false)]
+            [Required(ErrorMessage = "Campo Obligatorio")]
             public object Nombre { get; set; }
 
-            [Required(ErrorMessage = "Campo Obligatorio")]
             [DisplayFormat(ConvertEmptyStringToNull = false)]
+            [Required(ErrorMessage = "Campo Obligatorio")]
             [DataType(DataType.Password)]
             public object Contrasenia { get; set; }
+
+
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
+            public object Apellido { get; set; }
+
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
+            public object Estado { get; set; }
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
+            public object FechaCreacion { get; set; }
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
+            public object FechaActivacion { get; set; }
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
+            public object CodigoActivacion { get; set; }
+
 
         }
     }

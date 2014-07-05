@@ -9,7 +9,9 @@ using CAPTasksMVC.Servicios;
 namespace CAPTasksMVC.Controllers
 {
     /**
-     * Autorize determina si se debe estar logueado o no.
+     * Autorize bloquea el ingreso si no se esta logueado.
+     * Quedara comentado hasta la version final.
+     * TODO: Descomentar para la entrega.
      * */
     //[Authorize]
     public class HomeController : Controller
