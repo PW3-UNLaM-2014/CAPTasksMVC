@@ -44,5 +44,17 @@ namespace CAPTasksMVC.Repositorios
             context.Tareas.DeleteObject(baja);
             context.SaveChanges();
         }
+
+        public Tareas ObtenerTareaModificar(int idTarea)
+        {
+            Tareas tarea = context.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
+            return tarea;
+        }
+
+        public Tareas ObtenerTareaEliminar(int idTarea)
+        {
+            Tareas tarea = context.Tareas.Single(e => e.IdTarea == idTarea);
+            return tarea;
+        }
     }
 }

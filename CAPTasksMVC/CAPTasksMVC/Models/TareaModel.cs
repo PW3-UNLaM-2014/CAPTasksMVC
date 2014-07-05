@@ -18,7 +18,7 @@ namespace CAPTasksMVC.Models
             [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
             public object Nombre { get; set; }
 
-            [DataType(DataType.MultilineText)]
+            [DisplayName("Descripción")]
             public object Descripcion { get; set; }
 
             [Required(ErrorMessage = "Introduzca una fecha valida")]

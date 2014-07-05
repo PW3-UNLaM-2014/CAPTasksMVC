@@ -14,15 +14,16 @@ namespace CAPTasksMVC.Controllers
      * TODO: Descomentar para la entrega.
      * */
     //[Authorize]
+
     public class HomeController : Controller
     {
         CAPTasksEntities cap = new CAPTasksEntities();
 
         CarpetasServicios cs = new CarpetasServicios();
         TareasServicios ts = new TareasServicios();
-        
+
         public ActionResult Home()
-        {          
+        {
             var resultado = (from tareas in cap.Tareas select tareas).ToList();
             return View(resultado);
         }
@@ -35,7 +36,7 @@ namespace CAPTasksMVC.Controllers
         [HttpPost]
         public ActionResult CrearCarpeta(Carpetas carpeta)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -50,7 +51,10 @@ namespace CAPTasksMVC.Controllers
                 }
             }
             else
-                return View(carpeta);
+            {
+                ViewData["mensaje1"] = "Error al crear la carpeta";
+                return View();
+            }
         }
 
 
@@ -62,7 +66,7 @@ namespace CAPTasksMVC.Controllers
 
         [HttpPost]
         public ActionResult CrearTarea(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fechaFin, int prioridad)
-        {        
+        {
             if (ModelState.IsValid)
             {
                 try
@@ -78,22 +82,22 @@ namespace CAPTasksMVC.Controllers
             }
             else
             {
-                ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+                ViewData["mensaje2"] = "Error al crear la tarea";
                 return View();
             }
         }
 
         public ActionResult ModificarTarea(int idTarea)
         {
-            Tareas tarea = cap.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
-            ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+            Tareas tarea = ts.ObtenerTareaModificar(idTarea);
+            ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre", tarea.IdCarpeta);
             return View(tarea);
         }
 
         [HttpPost]
-        public ActionResult ModificarTarea(int idTarea,int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
+        public ActionResult ModificarTarea(int idTarea, int idCarpeta, string nombre, string descripcion, DateTime fechaFin, int prioridad)
         {
-           
+
             if (ModelState.IsValid)
             {
                 try
@@ -110,14 +114,14 @@ namespace CAPTasksMVC.Controllers
 
             else
             {
-                ViewBag.IdCarpeta = new SelectList(cap.Carpetas, "IdCarpeta", "Nombre");
+                ViewData["mensaje3"] = "Error al modificar la tarea";
                 return View();
             }
         }
 
         public ActionResult EliminarTarea(int idTarea)
         {
-            Tareas tarea = cap.Tareas.Single(e => e.IdTarea == idTarea);
+            Tareas tarea = ts.ObtenerTareaEliminar(idTarea);
             return View(tarea);
         }
 
@@ -129,7 +133,7 @@ namespace CAPTasksMVC.Controllers
                 ts.EliminarTarea(idTarea);
                 return RedirectToAction("Home");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ClientException.LogException(ex, "Error al eliminar la tarea");
                 return RedirectToAction("Error", "Shared");
