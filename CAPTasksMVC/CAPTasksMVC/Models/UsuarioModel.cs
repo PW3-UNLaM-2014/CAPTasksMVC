@@ -11,9 +11,13 @@ namespace CAPTasksMVC.Models
     {
         public class UsuarioModel
         {
+            //[DisplayFormat(ConvertEmptyStringToNull = false)]
+            //[Required(ErrorMessage = "Campo Obligatorio")]
+            public object Nombre { get; set; }
+
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             [Required(ErrorMessage = "Campo Obligatorio")]
-            public object Nombre { get; set; }
+            public object Email { get; set; }
 
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             [Required(ErrorMessage = "Campo Obligatorio")]

@@ -11,10 +11,9 @@
         {
             @Html.ValidationSummary(true)
 
-            //CAMPO OCULTO PARA CAPTURAR EL ID DE USUARIO:
             <div>
-                @Html.Hidden("idUsuario",84)
-            </div>
+            @Html.Hidden("idUsuario", this.Session["IdUsuario"])  
+            </div>  
             <div class="form-group">
                 @Html.LabelFor(model => model.Nombre)
                 <br />

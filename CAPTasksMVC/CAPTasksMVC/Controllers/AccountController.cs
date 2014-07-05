@@ -29,20 +29,20 @@ namespace CAPTasksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                string username = model.Nombre;
                 string password = model.Contrasenia;
+                string mail = model.Email;
 
                /* PasswordManagement criptografia = new PasswordManagement();
 
                 password = criptografia.Decrypt(password);
                 */
-                bool userValid = entities.Usuarios.Any(user => user.Nombre == username && user.Contrasenia == password);
+                bool userValid = entities.Usuarios.Any(user => user.Email == mail && user.Contrasenia == password);
 
                 if (userValid)
                 {
-                    FormsAuthentication.SetAuthCookie(username, false);
-
+                    FormsAuthentication.SetAuthCookie(mail, false);
+                    Usuarios miUsuario = traerDatosUsuario(mail);
+                    Session["IdUsuario"] = miUsuario.IdUsuario; // CREO SESSION
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
@@ -60,6 +60,14 @@ namespace CAPTasksMVC.Controllers
                 }
             }
             return View(model);
+        }
+
+        //TRAIGO DATOS DEL USUARIO LOGUEADO PARA CREAR LA SESSION:
+        public Usuarios traerDatosUsuario(string mail)
+        {
+            Usuarios user = new Usuarios();
+            user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).FirstOrDefault();
+            return user;
         }
 
         public ActionResult LogOff()

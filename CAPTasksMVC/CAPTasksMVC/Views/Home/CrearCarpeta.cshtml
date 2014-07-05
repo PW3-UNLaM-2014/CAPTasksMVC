@@ -9,9 +9,9 @@
     @using (Html.BeginForm("CrearCarpeta", "Home", FormMethod.Post))
     {
         @Html.ValidationSummary(true)    
-        //CAMPO OCULTO PARA CAPTURAR EL ID DE USUARIO. 84 ES MI USUARIO CREADO
+
         <div>
-            @Html.Hidden("idUsuario",84)
+            @Html.Hidden("idUsuario",this.Session["IdUsuario"])  
         </div>   
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre)
