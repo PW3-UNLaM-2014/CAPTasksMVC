@@ -19,13 +19,15 @@ namespace CAPTasksMVC.Controllers
     {
         CAPTasksEntities cap = new CAPTasksEntities();
 
+        CarpetaTareaServicios cts = new CarpetaTareaServicios();
         CarpetasServicios cs = new CarpetasServicios();
         TareasServicios ts = new TareasServicios();
 
         public ActionResult Home()
         {
-            var resultado = (from tareas in cap.Tareas select tareas).ToList();
-            return View(resultado);
+            CarpetaTareaModel ctm = cts.CrearListas();
+
+            return View(ctm);
         }
 
         public ActionResult CrearCarpeta()
