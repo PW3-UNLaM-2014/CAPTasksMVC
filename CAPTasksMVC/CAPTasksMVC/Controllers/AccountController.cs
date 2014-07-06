@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Mvc;
 using CAPTasksMVC.Models;
+using CAPTasksMVC.Servicios;
+using BotDetect.Web.UI.Mvc;
 
 namespace CAPTasksMVC.Controllers
 {
@@ -12,10 +14,11 @@ namespace CAPTasksMVC.Controllers
     public class AccountController : Controller
     {
         CAPTasksEntities entities = new CAPTasksEntities();
+        UsuariosServicios ts = new UsuariosServicios();
 
         public ActionResult Index()
         {
-            return View();
+            return View("Login");
         }
 
         public ActionResult Login()
@@ -30,27 +33,37 @@ namespace CAPTasksMVC.Controllers
             if (ModelState.IsValid)
             {
 
-                string username = model.Nombre;
                 string password = model.Contrasenia;
+                string mail = model.Email;
 
-               /* PasswordManagement criptografia = new PasswordManagement();
+               
+                password = Encryptor.MD5Hash(password);
+                
+                // Verificar si existe
+                bool userExists = entities.Usuarios.Any(user => user.Email == mail && user.Contrasenia == password);                
 
-                password = criptografia.Decrypt(password);
-                */
-                bool userValid = entities.Usuarios.Any(user => user.Nombre == username && user.Contrasenia == password);
-
-                if (userValid)
+                if (userExists)
                 {
-                    FormsAuthentication.SetAuthCookie(username, false);
+                    //Verificar si esta activo
+                    bool userActive = entities.Usuarios.Any(user => user.Email == mail && user.Contrasenia == password && user.Estado == 1);
 
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if (userActive)
                     {
-                        return Redirect(returnUrl);
+                        FormsAuthentication.SetAuthCookie(mail, false);
+
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Home", "Home");
+                        }
                     }
-                    else
-                    {
-                        return RedirectToAction("Home", "Home");
+                    else {
+
+                        ModelState.AddModelError("", "Usuario inactivo.");
                     }
                 }
                 else
@@ -68,44 +81,49 @@ namespace CAPTasksMVC.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult Users()
+        public ActionResult Registro()
         {
-            List<Usuarios> user = new List<Usuarios>();
-            user = (from usuarios in entities.Usuarios select usuarios).ToList();
-
+            Usuarios user = new Usuarios();
             return View(user);
         }
 
-
-        public ActionResult Registro()
-        {
-            return View();
-        }
-
         [HttpPost]
+        [CaptchaValidation("CaptchaCode", "SampleCaptcha", "Codigo de verificacion incorrecto!")]
         public ActionResult Registro(Usuarios model)
         {
-            // Creo que el encriptado no funciona porque el campo en la bdd es demasiado chico. 
-            if (ModelState.IsValid)
+    
+
+            if (!String.IsNullOrEmpty(model.Email))
             {
+                if (EmailEstaRepetido(model.Email))
+                {
+                    ModelState.AddModelError("", "El mail ingresado ya posee una cuenta asociada.");
 
-                //PasswordManagement manejoDeContrasenia = new PasswordManagement();
-                //model.Contrasenia = manejoDeContrasenia.Encrypt(model.Contrasenia);
-                model.FechaActivacion = DateTime.Now;
-                model.FechaCreacion = DateTime.Now;
-                Int16 IsActive = 1;
-                model.Estado = IsActive;
-                model.CodigoActivacion = model.Email;
-
-                entities.Usuarios.AddObject(model);
-                entities.SaveChanges();
-
-                return RedirectToAction("Home","Home");
+                    return View(model);
+                }
+            
             }
-            else {
-                return RedirectToAction("Index");
-            }
+                if(ModelState.IsValid)
+                {
 
+                    model.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
+                    model.FechaActivacion = DateTime.Now;
+                    model.FechaCreacion = DateTime.Now;
+                    Int16 IsActive = 1;
+                    model.Estado = IsActive;
+                    model.CodigoActivacion = Encryptor.MD5Hash(model.Email);
+
+                    entities.Usuarios.AddObject(model);
+                    entities.SaveChanges();
+
+                    return RedirectToAction("Home", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Verifique los errores en los campos.");
+
+                    return View(model);
+                }
             
         }
 
@@ -125,6 +143,14 @@ namespace CAPTasksMVC.Controllers
                 {
                     user.Estado = 1;
                     user.FechaActivacion = DateTime.Today;
+
+                    Carpetas carpeta = new Carpetas();
+                    carpeta.Nombre = "General";
+                    carpeta.IdUsuario = user.IdUsuario;
+                    carpeta.Descripcion = "Carpeta de uso general";
+                    user.Carpetas.Add(carpeta);
+
+                    entities.Usuarios.AddObject(user);
                     entities.SaveChanges();
                 }
                 return true;
@@ -138,16 +164,22 @@ namespace CAPTasksMVC.Controllers
         }
 
         //VERIFICAR SI YA EXISTE UN USUARIO REGISTRADO ACTIVO CON ESE MAIL EN LA LISTA DE USUARIOS:
-        public Usuarios VerificarEmail(string email)
+        private bool EmailEstaRepetido(string email)
         {
+            try
+            {
+                var user = (from usuarios in entities.Usuarios
+                            where usuarios.Email == email
+                            && usuarios.Estado != 0
+                            select usuarios
+                                 ).First();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;          
 
-            var user = (from usuarios in entities.Usuarios
-                        where usuarios.Email == email
-                        && usuarios.Estado != 0
-                        select usuarios
-                             ).First();
-
-            return user;
 
         }
     }

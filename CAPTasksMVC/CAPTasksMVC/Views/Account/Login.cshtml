@@ -1,72 +1,42 @@
 ﻿@model CAPTasksMVC.Models.Usuarios
+
+
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Login.cshtml";
     ViewBag.Title = "Login";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    @*<meta name="viewport" content="width=device-width" />*@
-    <!-- Core CSS -->
-    <link rel="Stylesheet" type="text/css" media="all" href="../../Content/css/bootstrap.min.css" />
-    <link rel="Stylesheet" type="text/css" media="all" href="../../Content/font-awesome/css/font-awesome.css" />
-    <!-- SB Admin CSS  -->
-    <link rel="Stylesheet" type="text/css" media="all" href="../../Content/css/captasks.css" />
-    <link type="text/css" rel="shortcut icon" href="../../Content/img/favicon.ico" />
-    <!-- Core Scripts -->
-    <script language="javascript" type="text/javascript" src="../../Scripts/js/jquery-1.10.2.js"></script>
-    <script language="javascript" type="text/javascript" src="../../Scripts/js/bootstrap.min.js"></script>
-    <!--Para calendario-->
-    <link href="../../Content/themes/base/jquery.ui.all.css" media="all" rel="stylesheet"
-        type="text/css" />
-    <script src="../../Scripts/datepicker/jquery-1.8.0.js" type="text/javascript"></script>
-    <script src="../../Scripts/datepicker/jquery.ui.core.js" type="text/javascript"></script>
-    <script src="../../Scripts/datepicker/jquery.ui.widget.js" type="text/javascript"></script>
-    <script src="../../Scripts/datepicker/jquery.ui.datepicker.js" type="text/javascript"></script>
-    <link href="../../Content/datepicker/demos.css" media="all" rel="stylesheet" type="text/css" />
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/themes/base/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-</head>
-<body>
     <div class="container">
         <div class="nav nav-bar navbar-header">
             <div class="col-md-3">
             </div>
             <div class="col-md-9">
-                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-inline" }))
+                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-inline" }))
                 {
                     @Html.ValidationSummary(true)
                                        
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Nombre)
-                        @Html.EditorFor(model => model.Nombre, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Nombre)
+                        @Html.LabelFor(model => model.Email)
+                        @Html.EditorFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email)
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.Contrasenia, new { @class = "sr-only" })
                         @Html.PasswordFor(model => model.Contrasenia, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Contrasenia)
                     </div>
-                    
-                    <div class="checkbox">
+                     <div class="checkbox">
                         <label>
                             <input type="checkbox" id="recordarme" />
                             Remember me
                         </label>
                     </div>
                     <button type="submit" class="btn btn-default">
-                        Entrar</button>
-                    
+                        Entrar
+                    </button>
+                    <a href="~/Account/Registro"><button type="button" class="btn btn-default">
+                        registrarse
+                    </button>
+                    </a>
                 }
             </div>
         </div>
-        @Html.Partial("~/Views/Account/Registro.cshtml", Model);
-    </div>
-</body>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}</html>

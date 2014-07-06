@@ -1,11 +1,26 @@
-﻿@model CAPTasksMVC.Models.Usuarios
+﻿@using BotDetect.Web.UI.Mvc;
+@model CAPTasksMVC.Models.Usuarios
 
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+    ViewBag.Title = "Login";
+}
+@section HeadIncludes {
+    <link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" 
+      rel="stylesheet" type="text/css" />
+}
 
 @using (Html.BeginForm("Registro", "Account", FormMethod.Post, new { @class = "form" })) {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>Registracion</legend>
+
+        
+        @Html.HiddenFor(m => m.FechaCreacion, DateTime.Today)
+        @Html.HiddenFor(m => m.Estado, Convert.ToInt16(0))
+        @Html.HiddenFor(m => m.FechaActivacion, DateTime.Today)
+        @Html.HiddenFor(m => m.CodigoActivacion, "")
 
         <div class="form-group">
         @Html.LabelFor(m => m.Nombre)
@@ -27,12 +42,19 @@
         @Html.PasswordFor(m => m.Contrasenia)
         @Html.ValidationMessageFor(m => m.Contrasenia)
         </div>
-        @Html.HiddenFor(m => m.FechaCreacion, DateTime.Today)
-        @Html.HiddenFor(m => m.Estado, Convert.ToInt16(0))
-        @Html.HiddenFor(m => m.FechaActivacion, DateTime.Today)
-        @Html.HiddenFor(m => m.CodigoActivacion,"")
-        <p>
-             <input type="submit" id="btnCrear" value="Registrarme!" class="btn btn-success" />
-            </p>
+        <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword)
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+
+         <div class="form-group">
+        @{ MvcCaptcha sampleCaptcha = new MvcCaptcha("SampleCaptcha"); }
+        @Html.Captcha(sampleCaptcha)
+        @Html.TextBox("CaptchaCode")
+         </div>
+        <button type="submit" class="btn btn-default">
+        Registrarme
+        </button>
     </fieldset>
 }

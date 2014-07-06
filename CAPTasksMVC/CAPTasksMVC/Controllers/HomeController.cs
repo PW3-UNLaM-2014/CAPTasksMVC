@@ -13,8 +13,7 @@ namespace CAPTasksMVC.Controllers
      * Quedara comentado hasta la version final.
      * TODO: Descomentar para la entrega.
      * */
-    //[Authorize]
-
+    [Authorize]
     public class HomeController : Controller
     {
         CAPTasksEntities cap = new CAPTasksEntities();

@@ -16,7 +16,8 @@
     <!--Para calendario-->
     <link href="../../Content/themes/base/jquery.ui.all.css" media="all" rel="stylesheet"
         type="text/css" />
-
+        
+        @RenderSection("HeadIncludes", required: false)
 
     <script src="../../Scripts/datepicker/jquery-1.8.0.js" type="text/javascript"></script>
     <script src="../../Scripts/datepicker/jquery.ui.core.js" type="text/javascript"></script>
@@ -26,21 +27,21 @@
     
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#FechaFin').datepicker({ dateFormat: "dd/mm/yy", minDate:"D" });
+            $('#FechaFin').datepicker({ dateFormat: "dd/mm/yy", minDate: "D" });
             $.validator.addMethod('date',
       function (value, element, params) {
-        if (this.optional(element)) {
-            return true;
-        }
-        var ok = true;
-        try {
-            $.datepicker.parseDate('dd/mm/yy', value);
-        }
-        catch (err) {
-            ok = false;
-        }
-        return ok;
-     });
+          if (this.optional(element)) {
+              return true;
+          }
+          var ok = true;
+          try {
+              $.datepicker.parseDate('dd/mm/yy', value);
+          }
+          catch (err) {
+              ok = false;
+          }
+          return ok;
+      });
         });
     </script>
     <title>@ViewBag.Title</title>
@@ -59,12 +60,7 @@
                     </h4>
                 </a>
             </div>
-            <div id="divSessionInfo" class="col-md-6 text-right"> 
-                Bienvenido, @User.Identity.Name
-                <a href="~/Account/LogOff">
-                    <input id="btnSalir" type="button" value="&#xf08b; Salir" class="btn btn-default fa-with-txt btn-sm" />
-                </a>
-            </div>
+           
         </div>
     </div>
     <div class="container">
