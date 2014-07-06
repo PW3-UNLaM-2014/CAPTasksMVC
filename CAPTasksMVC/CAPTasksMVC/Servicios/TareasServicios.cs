@@ -35,5 +35,10 @@ namespace CAPTasksMVC.Servicios
         {
             return tr.ObtenerTareaEliminar(idTarea);
         }
+
+        public void CambiarEstadoTarea(int idTarea)
+        {
+            tr.CambiarEstadoTarea(idTarea);        
+        }
     }
 }

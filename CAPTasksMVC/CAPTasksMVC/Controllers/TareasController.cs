@@ -95,5 +95,13 @@ namespace CAPTasksMVC.Controllers
                 return RedirectToAction("Error", "Shared");
             }
         }
+
+        [HttpPost]
+        public ActionResult CompletarTarea(int idTarea)
+        {
+            ts.CambiarEstadoTarea(idTarea);
+
+            return RedirectToAction("Home","Home");
+        }
     }
 }
