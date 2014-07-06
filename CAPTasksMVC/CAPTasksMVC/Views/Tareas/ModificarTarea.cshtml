@@ -1,19 +1,26 @@
 ﻿@model CAPTasksMVC.Models.Tareas
 @{
-    ViewBag.Title = "CrearTarea";
+    ViewBag.Title = "ModificarTarea";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container margin-bottom">
     <div id="page-wrapper" class="col-md-6 col-md-offset-3">
         <h3 class="page-header">
-            Nueva Tarea</h3>
-        @using (Html.BeginForm("CrearTarea", "Home", FormMethod.Post))
+            Modificar tarea</h3>
+        @using (Html.BeginForm("ModificarTarea", "Tareas", FormMethod.Post))
         {
             @Html.ValidationSummary(true)
 
             <div>
-            @Html.Hidden("idUsuario", this.Session["IdUsuario"])  
-            </div>  
+                @Html.HiddenFor(model => model.IdTarea)
+            </div>
+            <div>
+                @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
+                <br />
+                @Html.DropDownList("IdCarpeta", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCarpeta)
+            </div>      
             <div class="form-group">
                 @Html.LabelFor(model => model.Nombre)
                 <br />
@@ -29,18 +36,17 @@
             <div>
                 @Html.LabelFor(model => model.FechaFin)
                 <br />
-                @Html.TextBoxFor(model => model.FechaFin, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.FechaFin, "{0:dd/MM/yyyy}", new { @class = "form-control" }) 
                 @Html.ValidationMessageFor(model => model.FechaFin)
-            </div>
-            <br />
+            </div>           
             <div class="row">
                 <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.Prioridad)
+                @Html.LabelFor(model => model.Prioridad)
                     @{
             List<SelectListItem> listPrioridad = new List<SelectListItem>();
             listPrioridad.Add(new SelectListItem
             {
-                Text = "Baja",
+                Text = "Baja", 
                 Value = "0",
                 Selected = true
             });
@@ -48,6 +54,7 @@
             {
                 Text = "Media",
                 Value = "1",
+                
             });
             listPrioridad.Add(new SelectListItem
             {
@@ -63,25 +70,15 @@
                     @Html.DropDownListFor(model => model.Prioridad, listPrioridad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Prioridad)
                 </div>
-                <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.IdCarpeta, "Carpeta")
-                    @Html.DropDownList("IdCarpeta", null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IdCarpeta)
-                </div>
-            </div>
-            <div class="checkbox">
-                <br />
-                <input id="Checkbox1" type="checkbox" disabled="disabled" />
-                Completada
             </div>
             <br />
             <center>
-                <input type="submit" id="btnCrear" value="Crear Tarea" class="btn btn-success" />
-                 @Html.Encode(ViewData["mensaje2"])
+                <input type="submit" id="btnGuardarCambios" class="btn btn-success" value="Guardar Cambios" />
+                @Html.Encode(ViewData["mensaje3"])
             </center>
         }
     </div>
 </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")  
 }
