@@ -73,6 +73,8 @@ namespace CAPTasksMVC.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
+            Session.Abandon();
+            Session.Clear();
             return RedirectToAction("Login");
         }
 
