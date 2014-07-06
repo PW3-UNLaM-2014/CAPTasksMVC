@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CAPTasksMVC.Models;
 using CAPTasksMVC.Servicios;
+using System.Web.Security;
 
 namespace CAPTasksMVC.Controllers
 {
@@ -25,9 +26,45 @@ namespace CAPTasksMVC.Controllers
 
         public ActionResult Home()
         {
-            CarpetaTareaModel ctm = cts.CrearListas();
+            int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
+            CarpetaTareaModel ctm = cts.CrearListas(idUsuario);
 
             return View(ctm);
+        }
+
+        [HttpPost]
+        public ActionResult CompletarTarea(int idTarea)
+        {
+            ts.CambiarEstadoTarea(idTarea);
+
+            return RedirectToAction("Home");
+        }
+
+       
+
+        [HttpPost]
+        public ActionResult ListarTodasLasTareas()
+        {
+            var checkBox = Request.Form["ckbFinalizadas"];
+
+            bool estado = Convert.ToBoolean(Request.Form["ckbFinalizadas"]);
+
+            //bool mierda = estado;
+
+            //if (checkBox == "on")
+            //{
+            //    ...
+            //}
+
+
+            return RedirectToAction("Home");
+        }
+
+        public ActionResult ListarTareasPorCarpeta(int idCarpeta)
+        {
+            int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
+            CarpetaTareaModel ctm = cts.ListarTareasPorCarpeta(idCarpeta, idUsuario);
+            return View("Home", ctm);
         }
 
         public ActionResult CrearCarpeta()

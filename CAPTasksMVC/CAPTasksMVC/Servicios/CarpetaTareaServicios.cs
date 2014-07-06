@@ -11,12 +11,16 @@ namespace CAPTasksMVC.Servicios
     {
         CarpetaTareaRepositorio ctr = new CarpetaTareaRepositorio();
 
-        public CarpetaTareaModel CrearListas()
+        public CarpetaTareaModel CrearListas(int idUsuario)
         {
-            CarpetaTareaModel carpTarea;
-            carpTarea = ctr.CrearListas();
-
+            CarpetaTareaModel carpTarea = ctr.CrearListas(idUsuario);
             return carpTarea;
+        }
+
+        public CarpetaTareaModel ListarTareasPorCarpeta(int idCarpeta, int idUsuario)
+        {
+            CarpetaTareaModel carpTareaTodas = ctr.ListarTareasPorCarpeta(idCarpeta, idUsuario);
+            return carpTareaTodas;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿@* @model IEnumerable<CAPTasksMVC.Models.CarpetaTareaModel> *@
-@model CAPTasksMVC.Models.CarpetaTareaModel
+﻿@model CAPTasksMVC.Models.CarpetaTareaModel
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +14,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
+                       @Html.ActionLink(item.Nombre,"ListarTareasPorCarpeta", new { idCarpeta = item.IdCarpeta })
                     </td>
                 </tr>
             }
@@ -30,8 +29,9 @@
         </h2>
         <table>
             <tr>
+                @* Titulo de las columnas de Tareas *@
                 <th>
-                    @Html.DisplayNameFor(model => model.Tareas[0].Fecha) @* Titulo de las columnas de Tareas *@
+                    @Html.DisplayNameFor(model => model.Tareas[0].Fecha)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Tareas[1].Tarea)
@@ -51,6 +51,7 @@
             </tr>
             @foreach (var item in Model.Tareas)
             {
+                
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Fecha)
@@ -70,12 +71,35 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Estado)
                     </td>
+                    @if (item.Estado == "En curso")
+                    {
+                        <td>
+                            @using (Html.BeginForm("CompletarTarea", "Home", new { idTarea = item.IdTarea }, FormMethod.Post))
+                            { 
+                                <input type="submit" id="btnCompletar" value="Completar" class="btn btn-default fa-with-txt btn-sm" />                    
+                            }
+                        </td>
+                    }
                     <td>
                         @Html.ActionLink("Editar", "ModificarTarea", new { idTarea = item.IdTarea }) |
                         @Html.ActionLink("Eliminar", "EliminarTarea", new { idTarea = item.IdTarea })
                     </td>
                 </tr>
+                
             }
         </table>
+        
+        Incluir finalizadas
+
+        @using (Html.BeginForm("ListarTodasLasTareas", "Home", FormMethod.Post))
+        { 
+            @*<input type="checkbox" name="ckbFinalizadas" />
+            <input id='ckbFinalizadas' name='ckbFinalizadas' type='checkbox' />*@
+            
+            
+            @Html.CheckBox("ckbFinalizadas")
+            
+            <input type="submit" id="btnActualizar" value="Actualizar" class="btn btn-default fa-with-txt btn-sm" />                    
+        }
     </div>
 </div>

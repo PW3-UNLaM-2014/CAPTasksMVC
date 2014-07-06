@@ -56,5 +56,12 @@ namespace CAPTasksMVC.Repositorios
             Tareas tarea = context.Tareas.Single(e => e.IdTarea == idTarea);
             return tarea;
         }
+
+        public void CambiarEstadoTarea(int idTarea)
+        {
+            Tareas tarea = context.Tareas.Where(e => e.IdTarea == idTarea).FirstOrDefault();
+            tarea.Estado = 0;
+            context.SaveChanges();
+        }
     }
 }
