@@ -19,9 +19,7 @@ namespace CAPTasksMVC.Controllers
     public class HomeController : Controller
     {
         CAPTasksEntities cap = new CAPTasksEntities();
-
         CarpetaTareaServicios cts = new CarpetaTareaServicios();
-        TareasServicios ts = new TareasServicios();
 
         public ActionResult Home()
         {
@@ -34,19 +32,19 @@ namespace CAPTasksMVC.Controllers
         [HttpPost]
         public ActionResult ListarTodasLasTareas()
         {
-            var checkBox = Request.Form["ckbFinalizadas"];
+            bool estado = bool.Parse(Request.Form.GetValues("ckbFinalizadas")[0]);
 
-            bool estado = Convert.ToBoolean(Request.Form["ckbFinalizadas"]);
-
-            //bool mierda = estado;
-
-            //if (checkBox == "on")
-            //{
-            //    ...
-            //}
-
-
-            return RedirectToAction("Home");
+            if (estado == true)
+            {
+                int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
+                CarpetaTareaModel ctm = cts.ListarTodasLasTareas(idUsuario);
+                Request.Form.["ckbFinalizadas"] = "on";
+                return View("Home", ctm);
+            }
+            else
+            {
+                return RedirectToAction("Home");            
+            }
         }
 
         public ActionResult ListarTareasPorCarpeta(int idCarpeta)
