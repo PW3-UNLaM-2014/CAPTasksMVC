@@ -21,7 +21,7 @@
             }
         </table>
         <ul>
-            @Html.ActionLink("Nueva Carpeta", "CrearCarpeta", null, new { @class = "btn btn-primary fa-with-txt" })
+            @Html.ActionLink("Nueva Carpeta", "CrearCarpeta", "Carpetas", null, new { @class = "btn btn-primary fa-with-txt" })
         </ul>
     </div>
     <div id="page-wrapper" class="col-md-9">
@@ -71,14 +71,14 @@
                         @Html.DisplayFor(modelItem => item.Estado)
                     </td>
                     <td>
-                        @Html.ActionLink("Editar", "ModificarTarea", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-pencil" }) 
-                        @Html.ActionLink("Eliminar", "EliminarTarea", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-trash" })
+                        @Html.ActionLink("Editar", "ModificarTarea", "Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-pencil" }) 
+                        @Html.ActionLink("Eliminar", "EliminarTarea","Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-trash" })
                     </td>
                 </tr>
             }
         </table>
         <ul>
-          @Html.ActionLink("Nueva Tarea", "CrearTarea", null, new { @class = "btn btn-primary fa-with-txt" })
+          @Html.ActionLink("Nueva Tarea", "CrearTarea", "Tareas", null, new { @class = "btn btn-primary fa-with-txt" })
         </ul>
     </div>
 </div>
