@@ -38,7 +38,6 @@ namespace CAPTasksMVC.Controllers
             {
                 int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
                 CarpetaTareaModel ctm = cts.ListarTodasLasTareas(idUsuario);
-                Request.Form.["ckbFinalizadas"] = "on";
                 return View("Home", ctm);
             }
             else
@@ -50,6 +49,7 @@ namespace CAPTasksMVC.Controllers
         public ActionResult ListarTareasPorCarpeta(int idCarpeta)
         {
             int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
+
             CarpetaTareaModel ctm = cts.ListarTareasPorCarpeta(idCarpeta, idUsuario);
             return View("Home", ctm);
         }
