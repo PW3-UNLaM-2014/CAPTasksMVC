@@ -32,7 +32,6 @@ namespace CAPTasksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 string password = model.Contrasenia;
                 string mail = model.Email;
 
@@ -47,9 +46,11 @@ namespace CAPTasksMVC.Controllers
                     //Verificar si esta activo
                     bool userActive = entities.Usuarios.Any(user => user.Email == mail && user.Contrasenia == password && user.Estado == 1);
 
-                    if (userActive)
-                    {
-                        FormsAuthentication.SetAuthCookie(mail, false);
+                    if (userActive) {
+                
+                    FormsAuthentication.SetAuthCookie(mail, false);
+                    Usuarios miUsuario = traerDatosUsuario(mail);
+                    Session["IdUsuario"] = miUsuario.IdUsuario; // CREO SESSION
 
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                             && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -75,9 +76,19 @@ namespace CAPTasksMVC.Controllers
             return View(model);
         }
 
+        //TRAIGO DATOS DEL USUARIO LOGUEADO PARA CREAR LA SESSION:
+        public Usuarios traerDatosUsuario(string mail)
+        {
+            Usuarios user = new Usuarios();
+            user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).FirstOrDefault();
+            return user;
+        }
+
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
+            Session.Abandon();
+            Session.Clear();
             return RedirectToAction("Login");
         }
 
@@ -115,6 +126,19 @@ namespace CAPTasksMVC.Controllers
 
                     entities.Usuarios.AddObject(model);
                     entities.SaveChanges();
+
+                    //el usuario recibirá un email de activación que contendrá el link donde se activará su usuario registrado.
+
+                    MailsServicios mailing = new MailsServicios();
+                    try
+                    {
+                        mailing.EnviarMail(model);
+                    }
+                    catch (System.Net.Mail.SmtpException ex)
+                    {
+                        ModelState.AddModelError("",
+                        "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
+                    }
 
                     return RedirectToAction("Home", "Home");
                 }

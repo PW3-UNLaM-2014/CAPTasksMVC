@@ -132,9 +132,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ClientException.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CarpetasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\TareasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,13 +146,18 @@
     </Compile>
     <Compile Include="Models\CarpetaModel.cs" />
     <Compile Include="Models\Encryptor.cs" />
+    <Compile Include="Models\CarpetaTareaModel.cs" />
+    <Compile Include="Models\LecturaTareaModel.cs" />
     <Compile Include="Models\TareaModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorios\CarpetasRepositorio.cs" />
+    <Compile Include="Repositorios\CarpetaTareaRepositorio.cs" />
     <Compile Include="Repositorios\TareasRepositorio.cs" />
     <Compile Include="Repositorios\UsuariosRepositorio.cs" />
     <Compile Include="Servicios\CarpetasServicios.cs" />
+    <Compile Include="Servicios\CarpetaTareaServicios.cs" />
+    <Compile Include="Servicios\MailsServicios.cs" />
     <Compile Include="Servicios\TareasServicios.cs" />
     <Compile Include="Servicios\UsuariosServicios.cs" />
   </ItemGroup>
@@ -281,18 +287,6 @@
     <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\CrearCarpeta.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\CrearTarea.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\ModificarTarea.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\EliminarTarea.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Content\font-awesome\fonts\fontawesome-webfont.eot" />
     <None Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
     <None Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
@@ -307,6 +301,10 @@
     <Content Include="Views\Account\Registro.cshtml" />
     <Content Include="Views\Account\Crear.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Carpetas\CrearCarpeta.cshtml" />
+    <Content Include="Views\Tareas\CrearTarea.cshtml" />
+    <Content Include="Views\Tareas\ModificarTarea.cshtml" />
+    <Content Include="Views\Tareas\EliminarTarea.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

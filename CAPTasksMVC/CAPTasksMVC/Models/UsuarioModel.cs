@@ -14,11 +14,17 @@ namespace CAPTasksMVC.Models
         public object ConfirmPassword { get; set; }
         public class UsuarioModel
         {
-            
             [Required(ErrorMessage = "Campo Obligatorio")]
             [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             public object Nombre { get; set; }
+
+
+            [Required(ErrorMessage = "Campo Obligatorio")]
+            [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
+            [DataType(DataType.EmailAddress)]
+            [DisplayFormat(ConvertEmptyStringToNull = false)]
+            public object Email { get; set; }
 
             [Required(ErrorMessage = "Campo Obligatorio")]
             [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
@@ -35,12 +41,6 @@ namespace CAPTasksMVC.Models
             [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             public object Apellido { get; set; }
-
-            [Required(ErrorMessage = "Campo Obligatorio")]
-            [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
-            [DataType(DataType.EmailAddress)]
-            [DisplayFormat(ConvertEmptyStringToNull = false)]
-            public object Email { get; set; }
 
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             public object Estado { get; set; }

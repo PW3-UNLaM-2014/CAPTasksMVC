@@ -20,7 +20,7 @@ namespace CAPTasksMVC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "CrearTarea", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Home", id = UrlParameter.Optional }
             );
 
         }
