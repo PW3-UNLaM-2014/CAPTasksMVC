@@ -16,7 +16,9 @@ namespace CAPTasksMVC.Controllers
 
         public ActionResult CrearTarea()
         {
-            ViewBag.IdCarpeta = new SelectList(context.Carpetas, "IdCarpeta", "Nombre");
+            int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
+            var usuario = (context.Carpetas.Where(e => e.IdUsuario == idUsuario).ToList());
+            ViewBag.IdCarpeta = new SelectList(usuario, "IdCarpeta", "Nombre");
             return View();
         }
 
@@ -46,7 +48,9 @@ namespace CAPTasksMVC.Controllers
         public ActionResult ModificarTarea(int idTarea)
         {
             Tareas tarea = ts.ObtenerTareaModificar(idTarea);
-            ViewBag.IdCarpeta = new SelectList(context.Carpetas, "IdCarpeta", "Nombre", tarea.IdCarpeta);
+            int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
+            var usuario = (context.Carpetas.Where(e => e.IdUsuario == idUsuario).ToList());
+            ViewBag.IdCarpeta = new SelectList(usuario, "IdCarpeta", "Nombre", tarea.IdCarpeta);
             return View(tarea);
         }
 
