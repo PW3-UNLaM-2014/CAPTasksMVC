@@ -15,5 +15,9 @@ namespace CAPTasksMVC.Servicios
         {
             cr.CrearCarpeta(carpeta);
         }
+        public List<Carpetas> TraerCarpetasUsuario(int idUsuario)
+        {
+            return cr.TraerCarpetasUsuario(idUsuario);
+        }
     }
 }

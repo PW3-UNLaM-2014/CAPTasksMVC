@@ -14,5 +14,10 @@ namespace CAPTasksMVC.Repositorios
             context.AddToCarpetas(carpeta);
             context.SaveChanges();
         }
+        public List<Carpetas> TraerCarpetasUsuario(int idUsuario)
+        {
+            var carp = context.Carpetas.Where(e => e.IdUsuario == idUsuario).ToList();
+            return carp;
+        }
     }
 }

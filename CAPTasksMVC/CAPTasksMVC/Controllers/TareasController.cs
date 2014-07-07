@@ -10,14 +10,13 @@ namespace CAPTasksMVC.Controllers
 {
     public class TareasController : Controller
     {
-        
-        CAPTasksEntities context = new CAPTasksEntities();
         TareasServicios ts = new TareasServicios();
+        CarpetasServicios cs = new CarpetasServicios();
 
         public ActionResult CrearTarea()
         {
             int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
-            var usuario = (context.Carpetas.Where(e => e.IdUsuario == idUsuario).ToList());
+            var usuario = cs.TraerCarpetasUsuario(idUsuario);
             ViewBag.IdCarpeta = new SelectList(usuario, "IdCarpeta", "Nombre");
             return View();
         }
@@ -40,16 +39,16 @@ namespace CAPTasksMVC.Controllers
             }
             else
             {
-                ViewData["mensaje2"] = "Error al crear la tarea";
+                ModelState.AddModelError("", "No se puede crear la tarea, intentelo nuevamente");
                 return View();
             }
         }
 
         public ActionResult ModificarTarea(int idTarea)
         {
-            Tareas tarea = ts.ObtenerTareaModificar(idTarea);
             int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
-            var usuario = (context.Carpetas.Where(e => e.IdUsuario == idUsuario).ToList());
+            Tareas tarea = ts.ObtenerTareaModificar(idTarea);
+            var usuario = cs.TraerCarpetasUsuario(idUsuario);
             ViewBag.IdCarpeta = new SelectList(usuario, "IdCarpeta", "Nombre", tarea.IdCarpeta);
             return View(tarea);
         }
@@ -74,7 +73,7 @@ namespace CAPTasksMVC.Controllers
 
             else
             {
-                ViewData["mensaje3"] = "Error al modificar la tarea";
+                ModelState.AddModelError("", "No se puede modificar la tarea, intentelo nuevamente");
                 return View();
             }
         }

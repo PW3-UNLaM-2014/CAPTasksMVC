@@ -36,8 +36,8 @@ namespace CAPTasksMVC.Controllers
             }
             else
             {
-                ViewData["mensaje1"] = "Error al crear la carpeta";
-                return View();
+                ModelState.AddModelError("", "No se puede crear la carpeta, intentelo nuevamente");
+                return View(carpeta);
             }
         }
     }
