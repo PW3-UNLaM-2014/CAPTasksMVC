@@ -12,7 +12,6 @@ namespace CAPTasksMVC.Controllers
     /**
      * Autorize bloquea el ingreso si no se esta logueado.
      * Quedara comentado hasta la version final.
-     * TODO: Descomentar para la entrega.
      * */
     [Authorize]
     public class HomeController : Controller

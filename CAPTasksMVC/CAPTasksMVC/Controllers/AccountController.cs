@@ -170,9 +170,6 @@ namespace CAPTasksMVC.Controllers
 
         }
 
-        /**
-         * TODO la url no trae el codAct
-         * */
         public ActionResult Activar(string codAct)
         {
 
