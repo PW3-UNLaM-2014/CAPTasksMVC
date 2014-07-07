@@ -5,12 +5,10 @@
     Layout = "~/Views/Shared/_Login.cshtml";
     ViewBag.Title = "Login";
 }
-    <div class="container">
-        <div class="nav nav-bar navbar-header">
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-9">
-                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-inline" }))
+    
+        <div id="page-wrapper" class="col-md-6 col-md-offset-3">
+            
+                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form" }))
                 {
                     @Html.ValidationSummary(true)
                                        
@@ -20,17 +18,16 @@
                         @Html.ValidationMessageFor(model => model.Email)
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Contrasenia, new { @class = "sr-only" })
+                        @Html.LabelFor(model => model.Contrasenia)
                         @Html.PasswordFor(model => model.Contrasenia, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Contrasenia)
                     </div>
-                    <button type="submit" class="btn btn-default">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
                         Entrar
                     </button>
-                    <a href="~/Account/Registro"><button type="button" class="btn btn-default">
-                        registrarse
+                    <a href="~/Account/Registro"><button type="button" class="margin-top btn btn-default btn-lg btn-block">
+                        Registrarse
                     </button>
                     </a>
                 }
-            </div>
         </div>

@@ -8,26 +8,25 @@
         <h2>
             Carpetas
         </h2>
-        <br />
-        <table>
+        <div>
+        <ul class="list-unstyled">
             @foreach (var item in Model.Carpetas)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.Nombre,"ListarTareasPorCarpeta", new { idCarpeta = item.IdCarpeta })
-                    </td>
-                </tr>
+            {                
+                <li> 
+                    @Html.ActionLink(item.Nombre, "ListarTareasPorCarpeta", new { idCarpeta = item.IdCarpeta })
+                </li>                   
             }
-        </table>
-        <ul>
-            @Html.ActionLink("Nueva Carpeta", "CrearCarpeta", "Carpetas", null, new { @class = "btn btn-primary fa-with-txt" })
         </ul>
+        </div>
+        <div>
+            @Html.ActionLink("Nueva Carpeta", "CrearCarpeta", "Carpetas", null, new { @class = "btn btn-primary btn-block" })
+        </div>
     </div>
     <div id="page-wrapper" class="col-md-9">
         <h2>
             Lista de tareas
         </h2>
-        <table>
+        <table class="table">
             <tr>
                 @* Titulo de las columnas de Tareas *@
                 <th>
@@ -47,6 +46,10 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Tareas[5].Estado)
+                </th>
+                <th>
+                </th>
+                <th>
                 </th>
             </tr>
             @foreach (var item in Model.Tareas)
@@ -71,32 +74,41 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Estado)
                     </td>
-                    @if (item.Estado == "En curso")
-                    {
-                        <td>
-                            @using (Html.BeginForm("CompletarTarea", "Tareas", new { idTarea = item.IdTarea }, FormMethod.Post))
+                    <td>
+                        @if (item.Estado == "En curso")
+                        {
+
+                            using (Html.BeginForm("CompletarTarea", "Tareas", new { idTarea = item.IdTarea }, FormMethod.Post))
                             { 
-                                <input type="submit" id="btnCompletar" value="Completar" class="btn btn-default fa-with-txt btn-sm" />                    
+                            <input type="submit" id="btnCompletar" value="Completar" class="btn btn-default fa-with-txt btn-sm" />                    
                             }
-                        </td>
-                    }
+
+                        }
+                    </td>
                     <td>
                         @Html.ActionLink("Editar", "ModificarTarea", "Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-pencil" })
-                        @Html.ActionLink("Eliminar", "EliminarTarea","Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-trash" })
+                        @Html.ActionLink("Eliminar", "EliminarTarea", "Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-trash" })
                     </td>
                 </tr>
                 
             }
         </table>
-        @using (Html.BeginForm("ListarTodasLasTareas", "Home", FormMethod.Post))
-        { 
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm("ListarTodasLasTareas", "Home", FormMethod.Post))
+                { 
             
-            @Html.CheckBox("ckbFinalizadas")
-            <label>Incluir finalizadas</label>
-            <input type="submit" id="btnActualizar" value="Actualizar" class="btn btn-default fa-with-txt btn-sm" />                    
-        }
-        <ul>
-            @Html.ActionLink("Nueva Tarea", "CrearTarea", "Tareas", null, new { @class = "btn btn-primary fa-with-txt" })
-        </ul>
+                    @Html.CheckBox("ckbFinalizadas")
+                    <label>
+                        Incluir finalizadas</label>
+                    <input type="submit" id="btnActualizar" value="Actualizar" class="btn btn-default fa-with-txt btn-sm" />                    
+                }
+            </div>
+            <div class="col-md-6 text-right">
+                <ul>
+                    @Html.ActionLink("Nueva Tarea", "CrearTarea", "Tareas", null, new { @class = "btn btn-primary" })
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
