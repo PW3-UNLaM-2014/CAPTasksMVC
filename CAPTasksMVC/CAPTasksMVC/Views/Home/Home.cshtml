@@ -14,7 +14,7 @@
             {
                 <tr>
                     <td>
-                       @Html.ActionLink(item.Nombre,"ListarTareasPorCarpeta", new { idCarpeta = item.IdCarpeta })
+                        @Html.ActionLink(item.Nombre,"ListarTareasPorCarpeta", new { idCarpeta = item.IdCarpeta })
                     </td>
                 </tr>
             }
@@ -81,27 +81,22 @@
                         </td>
                     }
                     <td>
-                        @Html.ActionLink("Editar", "ModificarTarea", "Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-pencil" }) 
+                        @Html.ActionLink("Editar", "ModificarTarea", "Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-pencil" })
                         @Html.ActionLink("Eliminar", "EliminarTarea","Tareas", new { idTarea = item.IdTarea }, new { @class = "glyphicon glyphicon-trash" })
                     </td>
                 </tr>
                 
             }
         </table>
-        Incluir finalizadas
-
         @using (Html.BeginForm("ListarTodasLasTareas", "Home", FormMethod.Post))
         { 
-            @*<input type="checkbox" name="ckbFinalizadas" />
-            <input id='ckbFinalizadas' name='ckbFinalizadas' type='checkbox' />*@
-            
             
             @Html.CheckBox("ckbFinalizadas")
-            
+            <label>Incluir finalizadas</label>
             <input type="submit" id="btnActualizar" value="Actualizar" class="btn btn-default fa-with-txt btn-sm" />                    
         }
         <ul>
-          @Html.ActionLink("Nueva Tarea", "CrearTarea", "Tareas", null, new { @class = "btn btn-primary fa-with-txt" })
+            @Html.ActionLink("Nueva Tarea", "CrearTarea", "Tareas", null, new { @class = "btn btn-primary fa-with-txt" })
         </ul>
     </div>
 </div>
