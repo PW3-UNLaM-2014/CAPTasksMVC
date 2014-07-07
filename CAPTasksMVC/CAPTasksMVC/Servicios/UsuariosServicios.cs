@@ -10,11 +10,103 @@ namespace CAPTasksMVC.Servicios
 {
     public class UsuariosServicios
     {
-        UsuariosRepositorio tr = new UsuariosRepositorio();
-        public void Crear(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fechaFin, int prioridad)
+
+        UsuariosRepositorio ur = new UsuariosRepositorio();
+
+        //TRAIGO DATOS DEL USUARIO LOGUEADO PARA CREAR LA SESSION:
+        public Usuarios traerDatosPorMail(string mail)
         {
-            tr.Crear(idUsuario, nombre, descripcion, idCarpeta, fechaFin, prioridad);
+            return ur.TraerPorMail(mail);
         }
 
+        public bool IsActive(Usuarios model)
+        {
+            //Verificar si esta activo
+            return ur.IsActive(model);
+
+        }
+        public bool Exists(Usuarios model)
+        {
+
+            // Verificar si existe
+            return ur.Exists(model);
+
+        }
+        //ACTIVACION DE REGISTRACION:
+        public bool ActivarUsuario(string codAct)
+        {
+
+            try
+            {
+                // Encontrar al propietario del codigo de activacion
+                Usuarios user = ur.TraerPorCodigoDeActivacion(codAct);
+
+                // Solo se activa el usuario si la activacion se realiza dentro de los 15 min.
+                if ((DateTime.Today - user.FechaCreacion).Minutes < 15)
+                {
+                    user.Estado = 1;
+                    user.FechaActivacion = DateTime.Today;
+
+                    Carpetas carpeta = new Carpetas();
+                    carpeta.Nombre = "General";
+                    carpeta.IdUsuario = user.IdUsuario;
+                    carpeta.Descripcion = "Carpeta de uso general";
+                    user.Carpetas.Add(carpeta);
+
+                    Agregar(user);
+                }
+                return true;
+            }
+            catch
+            {
+                //Vencio el plazo de validez del enlace
+                return false;
+            }
+
+        }
+
+        //VERIFICAR SI YA EXISTE UN USUARIO REGISTRADO ACTIVO CON ESE MAIL EN LA LISTA DE USUARIOS:
+        public bool EmailExisteActivado(string email)
+        {
+            try
+            {
+                Usuarios user = ur.EmailExisteActivado(email);
+
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+
+
+        }
+
+        //VERIFICAR SI YA EXISTE UN USUARIO REGISTRADO INACTIVO CON ESE MAIL EN LA LISTA DE USUARIOS:
+        public bool EmailExisteInactivo(string email)
+        {
+            try
+            {
+                Usuarios user = ur.EmailExisteInactivo(email);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+
+
+        }
+
+        internal void Agregar(Usuarios model)
+        {
+            ur.Crear(model);
+        }
+
+
+        internal void Modificar(Usuarios user)
+        {
+            ur.Modificar(user);
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace CAPTasksMVC.Servicios
                 msj.SubjectEncoding = System.Text.Encoding.UTF8;
                 string body = "Hola " + model.Nombre.Trim() + ",";
                 body += "<br/><br/>Por favor, haga click en el siguiente link para activar su cuenta:<br/>";
-                body += "<br /><a href = '~/Account/ActivarUsuario/" 
+                body += "<br /><a href = '~/Account/Activar/" 
                     + model.CodigoActivacion
                     + "'>Haga click aqui para activar su cuenta</a>";
                 body += "<br /><br />Muchas gracias, CAPTasks!";

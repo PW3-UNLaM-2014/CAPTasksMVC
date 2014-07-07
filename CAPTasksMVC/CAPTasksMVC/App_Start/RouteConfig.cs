@@ -23,6 +23,12 @@ namespace CAPTasksMVC
                 defaults: new { controller = "Home", action = "Home", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+                "ActivarUsuario",
+                "Account/Activar/{codAct}",
+                new { controller = "Account", action = "Activar", codAct = UrlParameter.Optional }
+            );
+
         }
     }
 }

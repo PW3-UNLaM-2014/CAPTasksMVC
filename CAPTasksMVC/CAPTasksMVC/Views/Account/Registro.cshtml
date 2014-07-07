@@ -1,4 +1,5 @@
-﻿@using BotDetect.Web.UI.Mvc;
+﻿
+@using BotDetect.Web.UI.Mvc;
 @model CAPTasksMVC.Models.Usuarios
 
 @{
@@ -49,9 +50,17 @@
         </div>
 
          <div class="form-group">
-        @{ MvcCaptcha sampleCaptcha = new MvcCaptcha("SampleCaptcha"); }
-        @Html.Captcha(sampleCaptcha)
-        @Html.TextBox("CaptchaCode")
+
+            <div>
+                @Html.Label("CaptchaCode", "Retype the code from the picture:")
+                @{ MvcCaptcha sampleCaptcha = new MvcCaptcha("SampleCaptcha");
+                   sampleCaptcha.UserInputClientID = "CaptchaCode"; }
+                @Html.Captcha(sampleCaptcha)
+            </div>
+            <div class="actions">
+                @Html.TextBox("CaptchaCode")
+                @Html.ValidationMessage("CaptchaCode")
+            </div>
          </div>
         <button type="submit" class="btn btn-default">
         Registrarme

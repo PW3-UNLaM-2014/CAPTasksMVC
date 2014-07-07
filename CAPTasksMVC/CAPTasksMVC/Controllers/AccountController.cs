@@ -8,13 +8,13 @@ using CAPTasksMVC.Models;
 using CAPTasksMVC.Servicios;
 using BotDetect.Web.UI.Mvc;
 
+
 namespace CAPTasksMVC.Controllers
 {
 
     public class AccountController : Controller
     {
-        CAPTasksEntities entities = new CAPTasksEntities();
-        UsuariosServicios ts = new UsuariosServicios();
+        UsuariosServicios us = new UsuariosServicios();
 
         public ActionResult Index()
         {
@@ -23,34 +23,41 @@ namespace CAPTasksMVC.Controllers
 
         public ActionResult Login()
         {
-            Usuarios user = new Usuarios();
-            return View(user);
+            return View();
         }
 
-        [HttpPost]
+
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Login(Usuarios model, string returnUrl)
         {
-            if (ModelState.IsValid)
+            int cantidadDeErrores = 0;
+
+            if (model.Email.Length > 20)
             {
-                string password = model.Contrasenia;
-                string mail = model.Email;
+                ModelState.AddModelError("", "Email demasiado largo.");
+                cantidadDeErrores++;
+            }
 
-               
-                password = Encryptor.MD5Hash(password);
-                
-                // Verificar si existe
-                bool userExists = entities.Usuarios.Any(user => user.Email == mail && user.Contrasenia == password);                
+            if (model.Contrasenia.Length > 20)
+            {
+                ModelState.AddModelError("", "Contraseña demasiado larga.");
+                cantidadDeErrores++;
+            }
 
-                if (userExists)
+            if (cantidadDeErrores == 0)
+            {
+                model.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
+
+
+                if (us.Exists(model))
                 {
-                    //Verificar si esta activo
-                    bool userActive = entities.Usuarios.Any(user => user.Email == mail && user.Contrasenia == password && user.Estado == 1);
 
-                    if (userActive) {
-                
-                    FormsAuthentication.SetAuthCookie(mail, false);
-                    Usuarios miUsuario = traerDatosUsuario(mail);
-                    Session["IdUsuario"] = miUsuario.IdUsuario; // CREO SESSION
+                    if (us.IsActive(model))
+                    {
+
+                        FormsAuthentication.SetAuthCookie(model.Email, false);
+                        Usuarios miUsuario = us.traerDatosPorMail(model.Email);
+                        Session["IdUsuario"] = miUsuario.IdUsuario; // CREO SESSION
 
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                             && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -62,26 +69,18 @@ namespace CAPTasksMVC.Controllers
                             return RedirectToAction("Home", "Home");
                         }
                     }
-                    else {
-
+                    else
+                    {
                         ModelState.AddModelError("", "Usuario inactivo.");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "El nombre de usuario o la contrase&ntilde;a no son correctos.");
+                    ModelState.AddModelError("", "Verifique usuario y/o contraseña.");
 
                 }
             }
             return View(model);
-        }
-
-        //TRAIGO DATOS DEL USUARIO LOGUEADO PARA CREAR LA SESSION:
-        public Usuarios traerDatosUsuario(string mail)
-        {
-            Usuarios user = new Usuarios();
-            user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).FirstOrDefault();
-            return user;
         }
 
         public ActionResult LogOff()
@@ -99,112 +98,95 @@ namespace CAPTasksMVC.Controllers
         }
 
         [HttpPost]
-        [CaptchaValidation("CaptchaCode", "SampleCaptcha", "Codigo de verificacion incorrecto!")]
+        [CaptchaValidation("CaptchaCode", "SampleCaptcha", "Codigo Incorrecto!")]
         public ActionResult Registro(Usuarios model)
         {
-    
 
-            if (!String.IsNullOrEmpty(model.Email))
+            if (ModelState.IsValid)
             {
-                if (EmailEstaRepetido(model.Email))
+
+                if (us.EmailExisteActivado(model.Email))
                 {
                     ModelState.AddModelError("", "El mail ingresado ya posee una cuenta asociada.");
 
                     return View(model);
                 }
-            
-            }
-                if(ModelState.IsValid)
-                {
-
-                    model.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
-                    model.FechaActivacion = DateTime.Now;
-                    model.FechaCreacion = DateTime.Now;
-                    Int16 IsActive = 1;
-                    model.Estado = IsActive;
-                    model.CodigoActivacion = Encryptor.MD5Hash(model.Email);
-
-                    entities.Usuarios.AddObject(model);
-                    entities.SaveChanges();
-
-                    //el usuario recibirá un email de activación que contendrá el link donde se activará su usuario registrado.
-
-                    MailsServicios mailing = new MailsServicios();
-                    try
-                    {
-                        mailing.EnviarMail(model);
-                    }
-                    catch (System.Net.Mail.SmtpException ex)
-                    {
-                        ModelState.AddModelError("",
-                        "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
-                    }
-
-                    return RedirectToAction("Home", "Home");
-                }
                 else
                 {
-                    ModelState.AddModelError("", "Verifique los errores en los campos.");
 
-                    return View(model);
+
+
+                    /**
+                     * En caso de que ya exista un usuario registrado inactivo con el mismo email, 
+                     * se deberá permitir la registración del usuario. 
+                     * Activando la registración ya existente 
+                     * y no duplicando la registración del mismo. 
+                     * Se deberá actualizar los datos Nombre, Apellido y Contraseña.
+                     */
+
+                    if (us.EmailExisteInactivo(model.Email))
+                    {
+                        var user = us.traerDatosPorMail(model.Email);
+
+                        user.Nombre = model.Nombre;
+                        user.Apellido = model.Apellido;
+                        user.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
+                        user.Estado = Convert.ToInt16(1);
+
+                        us.Modificar(user);
+                    }
+                    else
+                    {
+                        model.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
+                        model.FechaActivacion = DateTime.Now;
+                        model.FechaCreacion = DateTime.Now;
+                        model.Estado = Convert.ToInt16(0);
+                        model.CodigoActivacion = Encryptor.MD5Hash(model.Email);
+
+                        us.Agregar(model);
+
+                        // El usuario recibirá un email de activación que contendrá el link donde se activará su usuario registrado.
+
+                        MailsServicios mailing = new MailsServicios();
+                        try
+                        {
+                            mailing.EnviarMail(model);
+                        }
+                        catch (System.Net.Mail.SmtpException ex)
+                        {
+                            ModelState.AddModelError("",
+                            "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
+                        }
+                    }
+                    return RedirectToAction("Home", "Home");
+
                 }
-            
+            }
+            else
+            {
+                ModelState.AddModelError("", "Verifique los errores en los campos.");
+
+                return View(model);
+            }
+
         }
 
-        //ACTIVACION DE REGISTRACION:
-        public bool ActivarUsuario(string codAct)
+        public ActionResult Activar(string codAct)
         {
 
-            try
+            string msj;
+            if (us.ActivarUsuario(codAct))
             {
-                // Encontrar al propietario del codigo de activacion
-                var user = (from usuarios in entities.Usuarios
-                            where usuarios.CodigoActivacion == codAct
-                            select usuarios).First();
-
-                // Solo se activa el usuario si la activacion se realiza dentro de los 15 min.
-                if ((DateTime.Today - user.FechaCreacion).Minutes < 15)
-                {
-                    user.Estado = 1;
-                    user.FechaActivacion = DateTime.Today;
-
-                    Carpetas carpeta = new Carpetas();
-                    carpeta.Nombre = "General";
-                    carpeta.IdUsuario = user.IdUsuario;
-                    carpeta.Descripcion = "Carpeta de uso general";
-                    user.Carpetas.Add(carpeta);
-
-                    entities.Usuarios.AddObject(user);
-                    entities.SaveChanges();
-                }
-                return true;
+                msj = "Gracias por activar su cuenta.";
             }
-            catch
+            else
             {
-                //Vencio el plazo de validez del enlace
-                return false;
+                msj = "Su tiempo para la activacion ha expirado.";
             }
 
+            ViewBag.msj = msj;
+            return View();
         }
 
-        //VERIFICAR SI YA EXISTE UN USUARIO REGISTRADO ACTIVO CON ESE MAIL EN LA LISTA DE USUARIOS:
-        private bool EmailEstaRepetido(string email)
-        {
-            try
-            {
-                var user = (from usuarios in entities.Usuarios
-                            where usuarios.Email == email
-                            && usuarios.Estado != 0
-                            select usuarios
-                                 ).First();
-            }
-            catch
-            {
-                return false;
-            }
-            return true;          
-
-
-        }
     }
 }

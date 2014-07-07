@@ -11,7 +11,11 @@ namespace CAPTasksMVC.Models
     [MetadataType(typeof(UsuarioModel))]
     public partial class Usuarios
     {
-        public object ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Compare("Contrasenia", ErrorMessage = "Las contraseñas deben ser iguales")]
+        public string ConfirmPassword { get; set; }
+
         public class UsuarioModel
         {
             [Required(ErrorMessage = "Campo Obligatorio")]
@@ -32,10 +36,6 @@ namespace CAPTasksMVC.Models
             [RegularExpression(@"^(?=(.*\d){2})(?=(.*[A-Z]){1}).{0,}$", ErrorMessage = "La contraseña al menos deberá contener 2 números y una letra mayúscula.")]
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             public object Contrasenia { get; set; }
-
-            [Compare("Contrasenia", ErrorMessage = "It should be similar to Password")]
-            [DisplayFormat(ConvertEmptyStringToNull = false)]
-            public object ConfirmPassword { get; set; }
 
             [Required(ErrorMessage = "Campo Obligatorio")]
             [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]

@@ -305,6 +305,7 @@
     <Content Include="Views\Tareas\CrearTarea.cshtml" />
     <Content Include="Views\Tareas\ModificarTarea.cshtml" />
     <Content Include="Views\Tareas\EliminarTarea.cshtml" />
+    <Content Include="Views\Account\Activar.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

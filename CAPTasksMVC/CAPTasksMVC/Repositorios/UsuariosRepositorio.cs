@@ -12,19 +12,72 @@ namespace CAPTasksMVC.Repositorios
     public class UsuariosRepositorio
     {
 
-        CAPTasksEntities context = new CAPTasksEntities();
-        public void Crear(int idUsuario, string nombre, string descripcion, int idCarpeta, DateTime fechaFin, int prioridad)
+        CAPTasksEntities entities = new CAPTasksEntities();
+
+
+        internal Usuarios TraerPorMail(string mail)
         {
-            Tareas miTarea = new Tareas();
-            miTarea.IdUsuario = idUsuario;
-            miTarea.Nombre = nombre;
-            miTarea.Descripcion = descripcion;
-            miTarea.FechaFin = fechaFin;
-            miTarea.IdCarpeta = idCarpeta;
-            miTarea.Prioridad = Convert.ToInt16(prioridad);
-            miTarea.Estado = 1;
-            context.Tareas.AddObject(miTarea);
-            context.SaveChanges();
+            Usuarios user = new Usuarios();
+            user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).FirstOrDefault();
+            return user;
+        }
+
+        internal bool IsActive(Usuarios model)
+        {
+            bool userActive = entities.Usuarios.Any(user => user.Email == model.Email && user.Estado == 1);
+            return userActive;
+        }
+
+        internal bool Exists(Usuarios model)
+        {
+            bool userExists = entities.Usuarios.Any(user => user.Email == model.Email && user.Contrasenia == model.Contrasenia);
+            return userExists;
+        }
+
+        internal Usuarios TraerPorCodigoDeActivacion(string codAct)
+        {
+            var user = (from usuarios in entities.Usuarios
+                        where usuarios.CodigoActivacion == codAct
+                        select usuarios).First();
+            return user;
+        }
+
+        internal void Crear(Usuarios user)
+        {
+            entities.Usuarios.AddObject(user);
+            entities.SaveChanges();
+        }
+
+        internal Usuarios EmailExisteActivado(string email)
+        {
+            var user = (from usuarios in entities.Usuarios
+                        where usuarios.Email == email
+                        && usuarios.Estado != 0
+                        select usuarios
+                                 ).First();
+            return user;
+        }
+
+        internal Usuarios EmailExisteInactivo(string email)
+        {
+
+            var user = (from usuarios in entities.Usuarios
+                        where usuarios.Email == email
+                        && usuarios.Estado == 0
+                        select usuarios
+                             ).First();
+            return user;
+        }
+
+        internal void Modificar(Usuarios user)
+        {
+            Usuarios usuario = entities.Usuarios.Where(e => e.IdUsuario == user.IdUsuario).FirstOrDefault();
+            usuario.Nombre = user.Nombre;
+            usuario.Apellido = user.Apellido;
+            user.Contrasenia = user.Contrasenia;
+            usuario.Estado = user.Estado;
+
+            entities.SaveChanges();
         }
     }
 }
