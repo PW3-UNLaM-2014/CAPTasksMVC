@@ -36,28 +36,28 @@ namespace CAPTasksMVC.Servicios
         public bool ActivarUsuario(string codAct)
         {
 
-            try
+            // Encontrar al propietario del codigo de activacion
+            Usuarios user = ur.TraerPorCodigoDeActivacion(codAct);
+            
+            Double TiempoPasadoDesdeLaRegistracion = (DateTime.Now - user.FechaCreacion).TotalMinutes;
+            
+            // Solo se activa el usuario si la activacion se realiza dentro de los 15 min.
+            if (TiempoPasadoDesdeLaRegistracion < 15)
             {
-                // Encontrar al propietario del codigo de activacion
-                Usuarios user = ur.TraerPorCodigoDeActivacion(codAct);
+                user.Estado = Convert.ToInt16(1);
+                user.FechaActivacion = DateTime.Now;
 
-                // Solo se activa el usuario si la activacion se realiza dentro de los 15 min.
-                if ((DateTime.Today - user.FechaCreacion).Minutes < 15)
-                {
-                    user.Estado = 1;
-                    user.FechaActivacion = DateTime.Today;
+                Carpetas carpeta = new Carpetas();
+                carpeta.Nombre = "General";
+                carpeta.IdUsuario = user.IdUsuario;
+                carpeta.Descripcion = "Carpeta de uso general";
+                user.Carpetas.Add(carpeta);
 
-                    Carpetas carpeta = new Carpetas();
-                    carpeta.Nombre = "General";
-                    carpeta.IdUsuario = user.IdUsuario;
-                    carpeta.Descripcion = "Carpeta de uso general";
-                    user.Carpetas.Add(carpeta);
+                ur.Guardar();
 
-                    Agregar(user);
-                }
                 return true;
             }
-            catch
+            else
             {
                 //Vencio el plazo de validez del enlace
                 return false;

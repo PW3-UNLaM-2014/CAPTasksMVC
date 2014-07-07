@@ -18,15 +18,15 @@ namespace CAPTasksMVC
               new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Home", id = UrlParameter.Optional }
+                "ActivarUsuario",
+                "Cuenta/Activar/{codAct}",
+                new { controller = "Account", action = "Activar", codAct = UrlParameter.Optional }
             );
 
             routes.MapRoute(
-                "ActivarUsuario",
-                "Account/Activar/{codAct}",
-                new { controller = "Account", action = "Activar", codAct = UrlParameter.Optional }
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Home", id = UrlParameter.Optional }
             );
 
         }

@@ -113,9 +113,6 @@ namespace CAPTasksMVC.Controllers
                 }
                 else
                 {
-
-
-
                     /**
                      * En caso de que ya exista un usuario registrado inactivo con el mismo email, 
                      * se deberá permitir la registración del usuario. 
@@ -131,7 +128,9 @@ namespace CAPTasksMVC.Controllers
                         user.Nombre = model.Nombre;
                         user.Apellido = model.Apellido;
                         user.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
-                        user.Estado = Convert.ToInt16(1);
+
+
+                        us.ActivarUsuario(user.CodigoActivacion);
 
                         us.Modificar(user);
                     }
@@ -171,6 +170,9 @@ namespace CAPTasksMVC.Controllers
 
         }
 
+        /**
+         * TODO la url no trae el codAct
+         * */
         public ActionResult Activar(string codAct)
         {
 

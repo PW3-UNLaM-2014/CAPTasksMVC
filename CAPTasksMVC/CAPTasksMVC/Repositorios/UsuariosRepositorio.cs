@@ -14,11 +14,12 @@ namespace CAPTasksMVC.Repositorios
 
         CAPTasksEntities entities = new CAPTasksEntities();
 
-
+        /**
+         * TODO: Fijarse porque no devuelve ningun usuario.
+         * */
         internal Usuarios TraerPorMail(string mail)
         {
-            Usuarios user = new Usuarios();
-            user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).FirstOrDefault();
+            var user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).First();
             return user;
         }
 
@@ -45,7 +46,7 @@ namespace CAPTasksMVC.Repositorios
         internal void Crear(Usuarios user)
         {
             entities.Usuarios.AddObject(user);
-            entities.SaveChanges();
+            Guardar();
         }
 
         internal Usuarios EmailExisteActivado(string email)
@@ -74,9 +75,14 @@ namespace CAPTasksMVC.Repositorios
             Usuarios usuario = entities.Usuarios.Where(e => e.IdUsuario == user.IdUsuario).FirstOrDefault();
             usuario.Nombre = user.Nombre;
             usuario.Apellido = user.Apellido;
-            user.Contrasenia = user.Contrasenia;
+            usuario.Contrasenia = user.Contrasenia;
             usuario.Estado = user.Estado;
 
+            Guardar();
+        }
+
+        internal void Guardar()
+        {
             entities.SaveChanges();
         }
     }

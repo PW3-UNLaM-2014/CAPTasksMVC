@@ -24,7 +24,7 @@ namespace CAPTasksMVC.Servicios
                 msj.SubjectEncoding = System.Text.Encoding.UTF8;
                 string body = "Hola " + model.Nombre.Trim() + ",";
                 body += "<br/><br/>Por favor, haga click en el siguiente link para activar su cuenta:<br/>";
-                body += "<br /><a href = '~/Account/Activar/" 
+                body += "<br /><a href='http://localhost/Cuenta/Activar/"
                     + model.CodigoActivacion
                     + "'>Haga click aqui para activar su cuenta</a>";
                 body += "<br /><br />Muchas gracias, CAPTasks!";
@@ -33,7 +33,7 @@ namespace CAPTasksMVC.Servicios
 
                 client.Host = "smtp.gmail.com";
                 client.EnableSsl = true;
-                NetworkCredential netcred = new NetworkCredential("nuestra.aplicacion2014", "unlampw1c-2014");
+                NetworkCredential netcred = new NetworkCredential("unlampw3", "unlampw1c-2014");
                 client.UseDefaultCredentials = true;
                 client.Credentials = netcred;
                 client.Port = 587;
