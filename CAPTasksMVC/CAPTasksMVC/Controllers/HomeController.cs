@@ -16,7 +16,6 @@ namespace CAPTasksMVC.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        CAPTasksEntities cap = new CAPTasksEntities();
         CarpetaTareaServicios cts = new CarpetaTareaServicios();
 
         public ActionResult Home()
