@@ -1,5 +1,4 @@
-﻿
-@using BotDetect.Web.UI.Mvc;
+﻿@using BotDetect.Web.UI.Mvc;
 @model CAPTasksMVC.Models.Usuarios
 
 @{
@@ -16,8 +15,9 @@
 @using (Html.BeginForm("Registro", "Account", FormMethod.Post, new { @class = "form" })) {
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Registracion</legend>
+    
+   <div id="page-wrapper" class="col-md-6 col-md-offset-3">
+        <legend>Registración</legend>
 
         
         @Html.HiddenFor(m => m.FechaCreacion, DateTime.Today)
@@ -27,17 +27,17 @@
 
         <div class="form-group">
         @Html.LabelFor(m => m.Nombre)
-        @Html.EditorFor(m => m.Nombre, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Nombre)
         </div>
         <div class="form-group">
         @Html.LabelFor(m => m.Apellido)
-        @Html.EditorFor(m => m.Apellido, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Apellido)
         </div>
         <div class="form-group">
         @Html.LabelFor(m => m.Email)
-        @Html.EditorFor(m => m.Email, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div class="form-group">
@@ -54,7 +54,7 @@
          <div class="form-group">
 
             <div>
-                @Html.Label("CaptchaCode", "Retype the code from the picture:")
+                @Html.Label("CaptchaCode", "Escriba el código de la imágen:")
                 @{ MvcCaptcha sampleCaptcha = new MvcCaptcha("SampleCaptcha");
                    sampleCaptcha.UserInputClientID = "CaptchaCode"; }
                 @Html.Captcha(sampleCaptcha)
@@ -64,8 +64,9 @@
                 @Html.ValidationMessage("CaptchaCode")
             </div>
          </div>
-        <button type="submit" class="btn btn-default">
+         <center>
+        <button type="submit" class="btn btn-success"/>
         Registrarme
-        </button>
-    </fieldset>
+       </center>
+    </div>  
 }

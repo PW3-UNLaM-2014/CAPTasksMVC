@@ -11,7 +11,7 @@ namespace CAPTasksMVC.Models
     [MetadataType(typeof(UsuarioModel))]
     public partial class Usuarios
     {
-
+        [DisplayName("Repetir Contraseña")]
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Compare("Contrasenia", ErrorMessage = "Las contraseñas deben ser iguales")]
         public string ConfirmPassword { get; set; }
@@ -30,6 +30,7 @@ namespace CAPTasksMVC.Models
             [DisplayFormat(ConvertEmptyStringToNull = false)]
             public object Email { get; set; }
 
+             [DisplayName("Contraseña")]
             [Required(ErrorMessage = "Campo Obligatorio")]
             [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
             [DataType(DataType.Password)]
