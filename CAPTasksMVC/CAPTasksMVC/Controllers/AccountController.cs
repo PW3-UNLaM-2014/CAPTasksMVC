@@ -24,6 +24,7 @@ namespace CAPTasksMVC.Controllers
 
         public ActionResult Login()
         {
+            ViewBag.RegistracionExitosa = TempData["Exito"];
             return View();
         }
 
@@ -164,7 +165,9 @@ namespace CAPTasksMVC.Controllers
                             "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
                         }
                     }
-                    return RedirectToAction("Home", "Home");
+
+                    TempData["Exito"] = "La registración tuvo exito! Revise su casilla de mail para activar su cuenta.";
+                    return RedirectToAction("Login");
 
                 }
             }

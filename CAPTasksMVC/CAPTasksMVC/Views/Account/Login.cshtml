@@ -5,6 +5,14 @@
     ViewBag.Title = "Login";
 }
     <div class="contenedor-imagen col-md-6">
+
+
+    @if (ViewBag.RegistracionExitosa != null)
+    {
+  <div class="alert alert-success margin-top" role="alert">
+        @ViewBag.RegistracionExitosa
+    </div>
+    }
             <img src="~/content/img/task-big.png" />
         </div>
         <div id="page-wrapper" class="col-md-6">
