@@ -21,7 +21,7 @@ namespace CAPTasksMVC.Models
             [DisplayName("Descripción")]
             public object Descripcion { get; set; }
 
-            [Required(ErrorMessage = "Introduzca una fecha valida")]
+            [Required(ErrorMessage="Debe seleccionar una fecha")]
             [DisplayName("Fecha Finalización")]
             public object FechaFin { get; set; }
 

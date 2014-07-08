@@ -18,6 +18,7 @@ namespace CAPTasksMVC.Controllers
             int idUsuario = Convert.ToInt16(this.Session["IdUsuario"]);
             var usuario = cs.TraerCarpetasUsuario(idUsuario);
             ViewBag.IdCarpeta = new SelectList(usuario, "IdCarpeta", "Nombre");
+            ViewBag.FechaFin = (DateTime.Now.Date).ToString("dd/MM/yyyy");
             return View();
         }
 
