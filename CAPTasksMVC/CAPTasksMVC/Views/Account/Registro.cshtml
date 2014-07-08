@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_Login.cshtml";
     ViewBag.Title = "Login";
 }
+
+
 @section HeadIncludes {
     <link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" 
       rel="stylesheet" type="text/css" />
@@ -25,27 +27,27 @@
 
         <div class="form-group">
         @Html.LabelFor(m => m.Nombre)
-        @Html.EditorFor(m => m.Nombre)
+        @Html.EditorFor(m => m.Nombre, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Nombre)
         </div>
         <div class="form-group">
         @Html.LabelFor(m => m.Apellido)
-        @Html.EditorFor(m => m.Apellido)
+        @Html.EditorFor(m => m.Apellido, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Apellido)
         </div>
         <div class="form-group">
         @Html.LabelFor(m => m.Email)
-        @Html.EditorFor(m => m.Email)
+        @Html.EditorFor(m => m.Email, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Email)
         </div>
         <div class="form-group">
         @Html.LabelFor(m => m.Contrasenia)
-        @Html.PasswordFor(m => m.Contrasenia)
+        @Html.PasswordFor(m => m.Contrasenia, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Contrasenia)
         </div>
         <div class="form-group">
         @Html.LabelFor(m => m.ConfirmPassword)
-        @Html.PasswordFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.ConfirmPassword)
         </div>
 

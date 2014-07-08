@@ -145,7 +145,7 @@
       <DependentUpon>CAPTasks.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\CarpetaModel.cs" />
-    <Compile Include="Models\Encryptor.cs" />
+    <Compile Include="Servicios\Encryptor.cs" />
     <Compile Include="Models\CarpetaTareaModel.cs" />
     <Compile Include="Models\LecturaTareaModel.cs" />
     <Compile Include="Models\TareaModel.cs" />
@@ -299,7 +299,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Account\Registro.cshtml" />
-    <Content Include="Views\Account\Crear.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Carpetas\CrearCarpeta.cshtml" />
     <Content Include="Views\Tareas\CrearTarea.cshtml" />

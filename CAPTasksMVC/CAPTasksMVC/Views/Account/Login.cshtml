@@ -1,12 +1,13 @@
 ﻿@model CAPTasksMVC.Models.Usuarios
 
-
 @{
     Layout = "~/Views/Shared/_Login.cshtml";
     ViewBag.Title = "Login";
 }
-    
-        <div id="page-wrapper" class="col-md-6 col-md-offset-3">
+    <div class="contenedor-imagen col-md-6">
+            <img src="~/content/img/task-big.png" />
+        </div>
+        <div id="page-wrapper" class="col-md-6">
             
                  @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form" }))
                 {
