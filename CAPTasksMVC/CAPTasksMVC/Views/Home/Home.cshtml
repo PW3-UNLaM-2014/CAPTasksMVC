@@ -48,6 +48,7 @@
                     @Html.DisplayNameFor(model => model.Tareas[5].Estado)
                 </th>
                 <th>
+                Acción
                 </th>
                 <th>
                 </th>
@@ -80,7 +81,7 @@
 
                             using (Html.BeginForm("CompletarTarea", "Tareas", new { idTarea = item.IdTarea }, FormMethod.Post))
                             { 
-                            <input type="submit" id="btnCompletar" value="Completar" class="btn btn-default fa-with-txt btn-sm" />                    
+                            <input type="submit" id="btnCompletar" value="Completar" class="btn btn-outline btn-success btn-sm" />                    
                             }
 
                         }
@@ -101,7 +102,7 @@
                     @Html.CheckBox("ckbFinalizadas")
                     <label>
                         Incluir finalizadas</label>
-                    <input type="submit" id="btnActualizar" value="Actualizar" class="btn btn-default fa-with-txt btn-sm" />                    
+                    <input type="submit" id="btnActualizar" value="Actualizar" class="btn btn-info fa-with-txt btn-sm" />                    
                 }
             </div>
             <div class="col-md-6 text-right">
