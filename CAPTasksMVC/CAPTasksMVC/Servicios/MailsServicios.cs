@@ -16,7 +16,8 @@ namespace CAPTasksMVC.Servicios
         SmtpClient client = new SmtpClient();
 
         public void EnviarMail(Usuarios model) {
-            
+
+            UriBuilder uri = new UriBuilder();
                 //ENVIO DE MAIL:
                 msj.To.Add(new MailAddress(model.Email));
                 msj.From = new MailAddress("nuestra.aplicacion2014@gmail.com");
@@ -24,8 +25,8 @@ namespace CAPTasksMVC.Servicios
                 msj.SubjectEncoding = System.Text.Encoding.UTF8;
                 string body = "Hola " + model.Nombre.Trim() + ",";
                 body += "<br/><br/>Por favor, haga click en el siguiente link para activar su cuenta:<br/>";
-                body += "<br /><a href='http://localhost/Cuenta/Activar/"
-                    + model.CodigoActivacion
+                body += "<br /><a href='"+ uri +"Cuenta/Activar/"
+                    + model.CodigoActivacion 
                     + "'>Haga click aqui para activar su cuenta</a>";
                 body += "<br /><br />Muchas gracias, CAPTasks!";
                 msj.Body = body;
