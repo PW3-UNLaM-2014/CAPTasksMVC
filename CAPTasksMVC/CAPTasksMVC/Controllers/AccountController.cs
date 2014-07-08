@@ -15,6 +15,7 @@ namespace CAPTasksMVC.Controllers
     public class AccountController : Controller
     {
         UsuariosServicios us = new UsuariosServicios();
+        MailsServicios mailing = new MailsServicios();
 
         public ActionResult Index()
         {
@@ -129,9 +130,16 @@ namespace CAPTasksMVC.Controllers
                         user.Apellido = model.Apellido;
                         user.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
 
-
-                        us.ActivarUsuario(user.CodigoActivacion);
-
+                        try
+                        {
+                            mailing.EnviarMail(user);
+                        }
+                        catch (System.Net.Mail.SmtpException ex)
+                        {
+                            ModelState.AddModelError("",
+                            "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
+                        }
+                        
                         us.Modificar(user);
                     }
                     else
@@ -146,7 +154,6 @@ namespace CAPTasksMVC.Controllers
 
                         // El usuario recibirá un email de activación que contendrá el link donde se activará su usuario registrado.
 
-                        MailsServicios mailing = new MailsServicios();
                         try
                         {
                             mailing.EnviarMail(model);
