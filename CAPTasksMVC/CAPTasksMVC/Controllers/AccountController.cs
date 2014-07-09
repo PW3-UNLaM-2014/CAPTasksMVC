@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
 using System.Web.Mvc;
 using CAPTasksMVC.Models;
 using CAPTasksMVC.Servicios;
 using BotDetect.Web.UI.Mvc;
+using System.Web.Security;
 
 
 namespace CAPTasksMVC.Controllers
@@ -15,7 +15,6 @@ namespace CAPTasksMVC.Controllers
     public class AccountController : Controller
     {
         UsuariosServicios us = new UsuariosServicios();
-        MailsServicios mailing = new MailsServicios();
 
         public ActionResult Index()
         {
@@ -57,9 +56,8 @@ namespace CAPTasksMVC.Controllers
                     if (us.IsActive(model))
                     {
 
-                        FormsAuthentication.SetAuthCookie(model.Email, false);
-                        Usuarios miUsuario = us.traerDatosPorMail(model.Email);
-                        Session["IdUsuario"] = miUsuario.IdUsuario; // CREO SESSION
+                        us.CrearCookie(model);
+                        Session["IdUsuario"] = us.traerIdUsuario(model); 
 
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                             && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -125,46 +123,27 @@ namespace CAPTasksMVC.Controllers
 
                     if (us.EmailExisteInactivo(model.Email))
                     {
-                        var user = us.traerDatosPorMail(model.Email);
-
-                        user.Nombre = model.Nombre;
-                        user.Apellido = model.Apellido;
-                        user.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
-
+                        
                         try
                         {
-                            mailing.EnviarMail(user);
+                            us.ActivarInactivo(model);
                         }
                         catch (System.Net.Mail.SmtpException ex)
                         {
-                            ModelState.AddModelError("",
-                            "Error al enviar el mail de confirmación, intentelo mas tarde.");
-
                             return RedirectToAction("Error", "Shared");
                         }
                         
-                        us.Modificar(user);
                     }
                     else
                     {
-                        model.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
-                        model.FechaActivacion = DateTime.Now;
-                        model.FechaCreacion = DateTime.Now;
-                        model.Estado = Convert.ToInt16(0);
-                        model.CodigoActivacion = Encryptor.MD5Hash(model.Email);
-
-                        us.Agregar(model);
-
-                        // El usuario recibirá un email de activación que contendrá el link donde se activará su usuario registrado.
-
+                  
                         try
                         {
-                            mailing.EnviarMail(model);
+                            us.Agregar(model);
                         }
                         catch (System.Net.Mail.SmtpException ex)
                         {
-                            ModelState.AddModelError("",
-                            "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
+                            return RedirectToAction("Error", "Shared");
                         }
                     }
 

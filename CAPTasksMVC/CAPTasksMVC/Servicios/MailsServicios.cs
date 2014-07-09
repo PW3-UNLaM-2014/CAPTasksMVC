@@ -15,6 +15,7 @@ namespace CAPTasksMVC.Servicios
 
         SmtpClient client = new SmtpClient();
 
+        // El usuario recibirá un email de activación que contendrá el link donde se activará su usuario registrado.
         public void EnviarMail(Usuarios model)
         {
 

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using CAPTasksMVC.Models;
 using CAPTasksMVC.Repositorios;
 using System.Web.Mvc;
+
 
 namespace CAPTasksMVC.Servicios
 {
@@ -12,6 +14,7 @@ namespace CAPTasksMVC.Servicios
     {
 
         UsuariosRepositorio ur = new UsuariosRepositorio();
+        MailsServicios mailing = new MailsServicios();
 
         //TRAIGO DATOS DEL USUARIO LOGUEADO PARA CREAR LA SESSION:
         public Usuarios traerDatosPorMail(string mail)
@@ -100,13 +103,48 @@ namespace CAPTasksMVC.Servicios
 
         internal void Agregar(Usuarios model)
         {
+
+            model.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
+            model.FechaActivacion = DateTime.Now;
+            model.FechaCreacion = DateTime.Now;
+            model.Estado = Convert.ToInt16(0);
+            model.CodigoActivacion = Encryptor.MD5Hash(model.Email);
+
             ur.Crear(model);
+
+            mailing.EnviarMail(model);
         }
 
 
         internal void Modificar(Usuarios user)
         {
             ur.Modificar(user);
+        }
+
+        internal void ActivarInactivo(Usuarios model)
+        {
+            var user = traerDatosPorMail(model.Email);
+
+            user.Nombre = model.Nombre;
+            user.Apellido = model.Apellido;
+            user.Contrasenia = Encryptor.MD5Hash(model.Contrasenia);
+
+            mailing.EnviarMail(user);
+            
+            Modificar(user);
+
+        }
+
+        internal void CrearCookie(Usuarios model)
+        {
+            FormsAuthentication.SetAuthCookie(model.Email, false);
+        }
+
+        internal object traerIdUsuario(Usuarios model)
+        {
+
+            Usuarios miUsuario = traerDatosPorMail(model.Email);
+            return miUsuario.IdUsuario; 
         }
     }
 }

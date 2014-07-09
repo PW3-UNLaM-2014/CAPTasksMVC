@@ -14,9 +14,6 @@ namespace CAPTasksMVC.Repositorios
 
         CAPTasksEntities entities = new CAPTasksEntities();
 
-        /**
-         * TODO: Fijarse porque no devuelve ningun usuario.
-         * */
         internal Usuarios TraerPorMail(string mail)
         {
             var user = (from usuarios in entities.Usuarios where usuarios.Email == mail select usuarios).First();
