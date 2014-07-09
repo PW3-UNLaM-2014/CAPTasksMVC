@@ -138,7 +138,9 @@ namespace CAPTasksMVC.Controllers
                         catch (System.Net.Mail.SmtpException ex)
                         {
                             ModelState.AddModelError("",
-                            "Error al enviar el mail de confirmación, intentelo mas tarde:" + ex.Message);
+                            "Error al enviar el mail de confirmación, intentelo mas tarde.");
+
+                            return RedirectToAction("Error", "Shared");
                         }
                         
                         us.Modificar(user);
